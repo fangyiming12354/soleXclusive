@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulario Marcas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+
+  <h2 th:text="${brand.id_brand == 0} ? 'Añadir Marca' : 'Editar Marca'"></h2>
+
+  <form th:action="${brand.id_brand == 0} ? @{/brands/save} : @{/brands/update}"
+        th:object="${brand}"
+        method="post">
+
+    <input type="hidden" th:field="*{id_brand}"/>
+
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Nombre</label>
+      <input type="text" class="form-control" id="nombre" th:field="*{name}" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a href="/brands" class="btn btn-secondary">Cancelar</a>
+
+  </form>
+</div>
+</body>
+</html>
