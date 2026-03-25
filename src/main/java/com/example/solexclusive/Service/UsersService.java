@@ -21,5 +21,6 @@ public class UsersService {
     public void update(Users u){usersDAO.update(u);}
     public Users findById(int id){return usersDAO.findById(id);}
     public List<Users> findAll(){return usersDAO.findAll();}
+    public Users login(String email,String password){return usersDAO.login(email,password);}
 
 }

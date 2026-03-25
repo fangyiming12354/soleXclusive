@@ -1,0 +1,99 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    height: 100vh;
+    display: flex;
+}
+
+/* Contenedor principal */
+.login {
+    width: 50%;
+    padding: 60px;
+    background-color: #f8f8f8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Logo */
+.login img {
+    width: 150px;
+    margin-bottom: 30px;
+}
+
+/* Título */
+.login h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Inputs */
+.form-control {
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+/* Labels */
+.form-label {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+/* Botón principal */
+.btn-primary {
+    background-color: #6c4ed9;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 15px;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #5a3ec0;
+}
+
+/* Botón secundario */
+.btn-secondary {
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 10px;
+}
+
+/* Columna derecha (imagen) */
+.photo {
+    width: 50%;
+    background-color: #8e79d6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo img {
+    width: 100%;
+    height: 100%
+    }
+
+/* Responsive */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .login, .photo {
+        width: 100%;
+    }
+
+    .photo {
+        display: none;
+    }
+}

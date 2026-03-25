@@ -10,5 +10,5 @@ public interface UsersDAO {
     void update(Users u);
     Users findById(int id);
     List<Users> findAll();
-
+    Users login(String email, String password);
 }
