@@ -39,9 +39,14 @@ public class UsersController {
         model.addAttribute("user",usersService.findById(id));
         return "Users/form_users";
     }
-    @PostMapping({"/users/update"})
-    public String updateUser(@ModelAttribute Users users){
-        usersService.update(users);
+    @PostMapping("/users/update")
+    public String updateUser(@ModelAttribute Users users, HttpSession session){
+        // Obtener usuario logueado
+        Users loggedUser = (Users) session.getAttribute("user");
+
+        boolean isAdminEditing = loggedUser != null && "admin".equalsIgnoreCase(loggedUser.getType_user());
+
+        usersService.update(users, isAdminEditing);
         return "redirect:/users";
     }
     @GetMapping({"/users/delete/{id}"})
@@ -62,11 +67,17 @@ public class UsersController {
         Users u = usersService.login(user.getEmail(), user.getPassword());
         if(u != null){
             session.setAttribute("user", u);
-            return "redirect:/users";
+
+            // Aquí chequeamos el rol
+            if("admin".equalsIgnoreCase(u.getType_user())){
+                return "redirect:/users"; // por ejemplo, panel de admin
+            } else {
+                return "redirect:/brands"; // por ejemplo, página de cliente
+            }
+
         } else {
             model.addAttribute("error","Invalid email or password");
-            return "Users/login"; // user sigue en el modelo gracias a @ModelAttribute
+            return "Users/login";
         }
     }
-
 }

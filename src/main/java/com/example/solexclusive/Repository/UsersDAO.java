@@ -7,7 +7,7 @@ import java.util.List;
 public interface UsersDAO {
     void save(Users u);
     void delete(int id);
-    void update(Users u);
+    void update(Users u,boolean isAdminEditing);
     Users findById(int id);
     List<Users> findAll();
     Users login(String email, String password);

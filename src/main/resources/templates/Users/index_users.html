@@ -17,7 +17,9 @@
                     <th>Nombre</th>
                     <th>Correo electrónico</th>
                     <th>Contraseña</th>
+                    <th>Rol</th>
                     <th>Acciones</th>
+
                 </tr>
                 </thead>
                 <tbody>
@@ -25,10 +27,11 @@
                     <td th:text="${user.id_user}"></td>
                     <td th:text="${user.name}"></td>
                     <td th:text="${user.email}"></td>
-                    <td th:text="${user.password}"></td>
+                    <td th:text="${user.type_user == 'admin' ? user.password : '******'}"></td>
+                    <td th:text="${user.type_user}"></td>
                     <td>
-                        <a th:href="@{/users/edit/{id}(id=${user.id_user})}" class="btn btn-warning btn-sm">Editar</a>
-                        <a th:href="@{/users/delete/{id}(id=${user.id_user})}" class="btn btn-danger btn-sm">Eliminar</a>
+                        <a th:if="${user.type_user != 'admin'}" th:href="@{/users/edit/{id}(id=${user.id_user})}" class="btn btn-warning btn-sm">Editar</a>
+                        <a th:if="${user.type_user != 'admin'}" th:href="@{/users/delete/{id}(id=${user.id_user})}" class="btn btn-danger btn-sm">Eliminar</a>
                     </td>
                 </tr>
                 </tbody>

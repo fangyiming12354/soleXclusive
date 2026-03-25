@@ -1,7 +1,7 @@
 package com.example.solexclusive.Model;
 
 public class Users {
-    private String name,password,email;
+    private String name,password,email,type_user;
     private int id_user;
 
     public Users() {
@@ -10,6 +10,14 @@ public class Users {
 
     public String getName() {
         return name;
+    }
+
+    public String getType_user() {
+        return type_user;
+    }
+
+    public void setType_user(String type_user) {
+        this.type_user = type_user;
     }
 
     public void setName(String name) {
