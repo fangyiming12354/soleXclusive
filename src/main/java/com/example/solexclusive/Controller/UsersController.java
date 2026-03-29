@@ -70,7 +70,7 @@ public class UsersController {
 
             // Aquí chequeamos el rol
             if("admin".equalsIgnoreCase(u.getType_user())){
-                return "redirect:/users"; // por ejemplo, panel de admin
+                return "redirect:/sneakers"; // por ejemplo, panel de admin
             } else {
                 return "redirect:/brands"; // por ejemplo, página de cliente
             }

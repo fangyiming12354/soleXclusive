@@ -5,13 +5,24 @@ public class Sneakers {
     private String name,description,filePath;
     private double price;
     private Brands id_brands;
+    private  TypeSneakers id_type_sneakers;
 
     public Sneakers() {
-        this.id_brands = id_brands;
+        this.id_brands = new Brands();
+        this.id_type_sneakers = new TypeSneakers();
     }
 
     public int getId_sneaker() {
         return id_sneaker;
+    }
+
+
+    public TypeSneakers getId_type_sneakers() {
+        return id_type_sneakers;
+    }
+
+    public void setId_type_sneakers(TypeSneakers id_type_sneakers) {
+        this.id_type_sneakers = id_type_sneakers;
     }
 
     public void setId_sneaker(int id_sneaker) {

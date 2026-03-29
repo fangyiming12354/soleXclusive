@@ -2,9 +2,11 @@ package com.example.solexclusive.Controller;
 
 import com.example.solexclusive.Model.Brands;
 import com.example.solexclusive.Model.Sneakers;
+import com.example.solexclusive.Model.TypeSneakers;
 import com.example.solexclusive.Repository.SneakersDAO;
 import com.example.solexclusive.Service.BrandsService;
 import com.example.solexclusive.Service.SneakersService;
+import com.example.solexclusive.Service.TypeSneakersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -22,12 +24,15 @@ import java.nio.file.StandardCopyOption;
 public class SneakersController {
     private SneakersService  sneakersService;
     private BrandsService  brandsService;
+    private TypeSneakersService  typeSneakersService;
 
     @Autowired
     public void SneakersService(SneakersService sneakersService) {this.sneakersService=sneakersService;}
 
     @Autowired
     public void BrandsService(BrandsService brandsService) {this.brandsService = brandsService;}
+    @Autowired
+    public void TypeSneakersService(TypeSneakersService typeSneakersService) {this.typeSneakersService = typeSneakersService; }
 
     @GetMapping({"/sneakers"})
     public String sneakers(Model model){
@@ -37,8 +42,9 @@ public class SneakersController {
 
     @GetMapping({"/sneakers/new"})
     public String newSneakers(Model model){
-        model.addAttribute("sneakers",new Sneakers());
+        model.addAttribute("sneaker",new Sneakers());
         model.addAttribute("brands",brandsService.findAllBrands());
+        model.addAttribute("typeSneakers",typeSneakersService.findAll());
         return "Sneakers/form_sneakers";
     }
 
@@ -58,6 +64,12 @@ public class SneakersController {
             Brands brands = brandsService.findBrandById(sneakers.getId_brands().getId_brand());
             sneakers.setId_brands(brands);
         }
+
+        if(sneakers.getId_type_sneakers() !=null && sneakers.getId_type_sneakers().getId_type_sneakers() !=0){
+            TypeSneakers typeSneakers = typeSneakersService.findById(sneakers.getId_type_sneakers().getId_type_sneakers());
+            sneakers.setId_type_sneakers(typeSneakers);
+        }
+
         sneakersService.save(sneakers);
         return "redirect:/sneakers";
     }
@@ -67,6 +79,7 @@ public class SneakersController {
         Sneakers sneaker = sneakersService.findById(id);
         model.addAttribute("sneaker",sneaker);
         model.addAttribute("brands",brandsService.findAllBrands());
+        model.addAttribute("typeSneakers",typeSneakersService.findAll());
         return "Sneakers/form_sneakers";
     }
 
@@ -91,6 +104,10 @@ public class SneakersController {
         if (sneakers.getId_brands() != null && sneakers.getId_brands().getId_brand() != 0) {
             Brands brand = brandsService.findBrandById(sneakers.getId_brands().getId_brand());
             sneaker.setId_brands(brand);
+        }
+        if(sneakers.getId_type_sneakers() !=null && sneakers.getId_type_sneakers().getId_type_sneakers() !=0){
+            TypeSneakers typeSneakers = typeSneakersService.findById(sneakers.getId_type_sneakers().getId_type_sneakers());
+            sneakers.setId_type_sneakers(typeSneakers);
         }
         sneakersService.update(sneaker);
 

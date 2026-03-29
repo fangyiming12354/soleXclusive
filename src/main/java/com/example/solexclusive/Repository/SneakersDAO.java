@@ -11,5 +11,7 @@ public interface SneakersDAO {
     void delete(int id);
     Sneakers findById(int id);
     List<Sneakers> findAll();
-    Sneakers findByBrand(Brands id);
+    List<Sneakers> findByBrand(Brands id);
+    List<Sneakers> findByType(String type);
+    List<Sneakers> findByBrandType(Brands id,String type);
 }

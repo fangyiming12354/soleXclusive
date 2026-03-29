@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Sneakers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+
+    <h2 th:text="${sneaker.id_sneaker == 0} ? 'Añadir Sneaker' : 'Editar Sneaker'"></h2>
+
+    <form th:action="${sneaker.id_sneaker == 0} ? @{/sneakers/save} : @{/sneakers/update}"
+          th:object="${sneaker}"
+          method="post"
+          enctype="multipart/form-data">
+
+        <input type="hidden" th:field="*{id_sneaker}"/>
+
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" th:field="*{name}" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <input type="text" class="form-control" th:field="*{description}" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Precio</label>
+            <input type="number" step="0.01" class="form-control" th:field="*{price}" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Marca</label>
+            <select class="form-control" th:field="*{id_brands.id_brand}">
+                <option th:each="b : ${brands}"
+                        th:value="${b.id_brand}"
+                        th:text="${b.name}">
+                </option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Tipo</label>
+            <select class="form-control" th:field="*{id_type_sneakers.id_type_sneakers}">
+                <option th:each="t : ${typeSneakers}"
+                        th:value="${t.id_type_sneakers}"
+                        th:text="${t.name}">
+                </option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Imagen</label>
+            <input type="file" class="form-control" name="images"/>
+        </div>
+
+        <div class="mb-3" th:if="${sneaker.filePath != null}">
+            <img th:src="@{/images/{img}(img=${sneaker.filePath})}" width="150"/>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/sneakers" class="btn btn-secondary">Cancelar</a>
+
+    </form>
+</div>
+</body>
+</html>
