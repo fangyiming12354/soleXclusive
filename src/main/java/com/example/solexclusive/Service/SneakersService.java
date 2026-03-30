@@ -19,9 +19,9 @@ public class SneakersService {
     public void save(Sneakers sneakers) {sneakersDAO.save(sneakers);}
     public List<Sneakers> findAll(){return sneakersDAO.findAll();}
     public Sneakers findById(int id){return sneakersDAO.findById(id);}
-    public List<Sneakers> findByBrand(Brands id){return sneakersDAO.findByBrand(id);}
+    public List<Sneakers> findByBrand(int id_brand){return sneakersDAO.findByBrand(id_brand);}
     public void delete(int id) {sneakersDAO.delete(id);}
     public void update(Sneakers sneakers) {sneakersDAO.update(sneakers);}
-    public List<Sneakers> findByType(String type){return sneakersDAO.findByType(type);}
-    public List<Sneakers> findByBrandType(Brands id, String type){return sneakersDAO.findByBrandType(id, type);}
+    public List<Sneakers> findByType(int id_type_sneakers){return sneakersDAO.findByType(id_type_sneakers);}
+    public List<Sneakers> findByBrandType(int id_brand,int id_type_sneakers){return sneakersDAO.findByBrandType(id_brand,id_type_sneakers);}
 }

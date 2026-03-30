@@ -37,6 +37,13 @@ public class SneakersController {
     @GetMapping({"/sneakers"})
     public String sneakers(Model model){
         model.addAttribute("sneakers",sneakersService.findAll());
+        model.addAttribute("brands", brandsService.findAllBrands());
+        return "Sneakers/index_sneakers";
+    }
+    @GetMapping("/sneakers/filter")
+    public String filterByBrand(@RequestParam int id_brand, Model model){
+        model.addAttribute("sneakers", sneakersService.findByBrand(id_brand));
+        model.addAttribute("brands", brandsService.findAllBrands());
         return "Sneakers/index_sneakers";
     }
 

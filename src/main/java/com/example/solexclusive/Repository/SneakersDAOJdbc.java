@@ -101,12 +101,12 @@ public class SneakersDAOJdbc implements SneakersDAO {
     }
 
     @Override
-    public List<Sneakers> findByBrand(Brands brand) {
+    public List<Sneakers> findByBrand(int id_brand) {
         List<Sneakers> sneaker=new ArrayList<Sneakers>();
         String sql = "SELECT s.id_sneaker,s.name,s.description,s.price,s.filePath,b.id_brand,b.name brand_name,t.id_type_sneaker,t.name type_name FROM sneakers s JOIN brands b ON s.id_brand=b.id_brand JOIN type_sneakers t on s.id_type_sneaker=t.id_type_sneaker where s.id_brand=?";
         try {
             PreparedStatement ps = this.getConnection().prepareStatement(sql);
-            ps.setInt(1, brand.getId_brand());
+            ps.setInt(1, id_brand);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 sneaker.add(this.mapSneakers(rs));
@@ -118,12 +118,12 @@ public class SneakersDAOJdbc implements SneakersDAO {
     }
 
     @Override
-    public List<Sneakers> findByType(String type) {
+    public List<Sneakers> findByType(int id_type_sneakers) {
         List<Sneakers> sneaker=new ArrayList<Sneakers>();
-        String sql = "SELECT s.id_sneaker,s.name,s.description,s.price,s.filePath,b.id_brand,b.name brand_name,t.id_type_sneaker,t.name type_name FROM sneakers s JOIN brands b ON s.id_brand=b.id_brand JOIN type_sneakers t on s.id_type_sneaker=t.id_type_sneaker where t.name=?";
+        String sql = "SELECT s.id_sneaker,s.name,s.description,s.price,s.filePath,b.id_brand,b.name brand_name,t.id_type_sneaker,t.name type_name FROM sneakers s JOIN brands b ON s.id_brand=b.id_brand JOIN type_sneakers t on s.id_type_sneaker=t.id_type_sneaker where t.id_type_sneaker=?";
         try {
             PreparedStatement ps = this.getConnection().prepareStatement(sql);
-            ps.setString(1, type);
+            ps.setInt(1,id_type_sneakers );
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 sneaker.add(this.mapSneakers(rs));
@@ -136,13 +136,13 @@ public class SneakersDAOJdbc implements SneakersDAO {
     }
 
     @Override
-    public List<Sneakers> findByBrandType(Brands id, String type) {
+    public List<Sneakers> findByBrandType(int id_brand,int id_type_sneakers) {
         List<Sneakers> sneaker=new ArrayList<Sneakers>();
-        String sql = "SELECT s.id_sneaker,s.name,s.description,s.price,s.filePath,b.id_brand,b.name brand_name,t.id_type_sneaker,t.name type_name FROM sneakers s JOIN brands b ON s.id_brand=b.id_brand JOIN type_sneakers t on s.id_type_sneaker=t.id_type_sneaker where s.id_brand=? and t.name=?";
+        String sql = "SELECT s.id_sneaker,s.name,s.description,s.price,s.filePath,b.id_brand,b.name brand_name,t.id_type_sneaker,t.name type_name FROM sneakers s JOIN brands b ON s.id_brand=b.id_brand JOIN type_sneakers t on s.id_type_sneaker=t.id_type_sneaker where s.id_brand=? and t.id_type_sneaker=?";
         try {
             PreparedStatement ps = this.getConnection().prepareStatement(sql);
-            ps.setInt(1,id.getId_brand());
-            ps.setString(2, type);
+            ps.setInt(1, id_brand);
+            ps.setInt(2, id_type_sneakers);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 sneaker.add(this.mapSneakers(rs));
