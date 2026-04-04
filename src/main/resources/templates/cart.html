@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Carrito de Compras</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<div class="container">
+  <h1>Carrito de Compras</h1>
+
+  <th:block th:if="${cart.items.isEmpty()}">
+    <p>Tu carrito está vacío</p>
+    <a href="/home" class="btn">Continuar comprando</a>
+  </th:block>
+
+  <th:block th:unless="${cart.items.isEmpty()}">
+    <table>
+      <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Talla</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
+        <th>Subtotal</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="item : ${cart.items}">
+        <td th:text="${item.id_sneaker.name}"></td>
+        <td th:text="${item.size}"></td>
+        <td th:text="${item.quantity}"></td>
+        <td th:text="'€' + ${item.unit_price}"></td>
+        <td th:text="'€' + ${item.quantity * item.unit_price}"></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="total">
+      <h2>Total: <span th:text="'€' + ${total}"></span></h2>
+    </div>
+
+    <!-- BOTÓN PAGAR -->
+    <form th:action="@{/home/cart/checkout}" method="post">
+      <button type="submit" class="btn btn-pay">Pagar</button>
+    </form>
+
+    <a href="/home" class="btn btn-secondary">Continuar comprando</a>
+  </th:block>
+</div>
+
+</body>
+</html>

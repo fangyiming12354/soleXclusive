@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle Sneaker</title>
+    <link rel="stylesheet" th:href="@{/css/product.css}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="product-page">
+
+        <!-- IZQUIERDA: IMAGEN -->
+        <div class="product-image">
+            <img th:src="@{/images/{img}(img=${sneaker.filePath})}">
+        </div>
+
+        <!-- DERECHA: INFO -->
+        <div class="product-info">
+
+            <h2 th:text="${sneaker.name}"></h2>
+            <p class="brand" th:text="${sneaker.id_brands.name}"></p>
+
+            <!-- SELECT TALLA -->
+            <form th:action="@{/home/cart/add}" method="post" class="cart-form">
+                <!-- SELECT TALLA -->
+                <label>Size:</label>
+                <select name="size" class="size-select" required>
+                    <option value="">Select a size</option>
+                    <option th:each="stock : ${stocks}"
+                            th:value="${stock.size}"
+                            th:text="${stock.size}">
+                    </option>
+                </select>
+
+                <!-- CANTIDAD -->
+                <label>Quantity:</label>
+                <input type="number" name="quantity" value="1" min="1" required>
+
+                <!-- PRECIO -->
+                <div class="price-box">
+                    <p>Buy Now for</p>
+                    <h3 th:text="'€' + ${sneaker.price}"></h3>
+
+                    <div class="buttons">
+                        <input type="hidden" name="id_sneaker" th:value="${sneaker.id_sneaker}">
+                        <button type="submit" class="buy">Add to Cart</button>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+
+    </div>
+
+    <!-- RELATED -->
+    <h3>Related Products</h3>
+    <div class="related">
+        <div class="card" th:each="s : ${related}">
+            <img th:src="@{/images/{img}(img=${s.filePath})}">
+            <p th:text="${s.name}"></p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

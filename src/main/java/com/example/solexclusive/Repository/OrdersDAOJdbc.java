@@ -21,7 +21,7 @@ public class OrdersDAOJdbc implements OrdersDAO {
     public void save(Orders orders) {
         String sqlOrder = "INSERT INTO orders (id_user, total) VALUES (?, ?)";
         String sqlItem = "INSERT INTO order_items (id_order, id_sneaker, quantity, unit_price, size) VALUES (?, ?, ?, ?, ?)";
-        String sqlStock = "UPDATE stocks SET quantity = quantity - ? WHERE id_sneaker = ? AND size = ?";
+        String sqlStock = "UPDATE stocks SET quantity = quantity - ? WHERE id_sneaker = ? AND size = ? AND quantity >= ?";
 
         try (Connection conn = this.getConnection()) {
 
@@ -60,6 +60,7 @@ public class OrdersDAOJdbc implements OrdersDAO {
                     psStock.setInt(1, item.getQuantity());
                     psStock.setInt(2, item.getId_sneaker().getId_sneaker());
                     psStock.setDouble(3, item.getSize());
+                    psStock.setInt(4, item.getQuantity());
                     psStock.executeUpdate();
                 }
             }
