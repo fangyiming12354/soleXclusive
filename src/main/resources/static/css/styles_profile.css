@@ -1,0 +1,123 @@
+/* ============================================
+   ESTILOS DEL PERFIL DE USUARIO
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+
+.navbar {
+    background: rgba(15, 15, 15, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 0 !important;
+}
+
+.nav_brand {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(255, 184, 0, 0.2));
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.nav_brand:hover {
+    transform: scale(1.08);
+    filter: drop-shadow(0 4px 12px rgba(255, 184, 0, 0.4));
+    background: rgba(255, 184, 0, 0.1);
+}
+
+.navbar-nav .nav-link {
+    color: #fff !important;
+    margin-left: 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffb800 !important;
+    transform: translateY(-2px);
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #ffb800 0%, #ffd700 100%);
+    transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+
+svg {
+    fill: currentColor;
+    transition: all 0.3s ease;
+}
+
+svg:hover {
+    filter: drop-shadow(0 0 8px rgba(255, 184, 0, 0.5));
+}
+
+/* ============================================
+   CONTENEDOR PRINCIPAL
+   ============================================ */
+
+.container-profile {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+}
+
+/* ============================================
+   ENCABEZADO
+   ============================================ */
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: slideDown 0.5s ease;
+}
+
+.profile-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.profile-header p {
+    color: #888;
+    font-size: 1.1rem;
+}
+
+/* ============================================
+   TARJETAS
+   ============================================ */
+
+.card {
+    background: rgba(

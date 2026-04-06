@@ -9,10 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +22,7 @@ public class soleXclusiveController {
     private BrandsService brandsService;
     private TypeSneakersService typeSneakersService;
     private OrdersService OrdersService;
+    private UsersService usersService;
 
     @Autowired
     public void StocksService(StocksService stocksService) {
@@ -42,12 +40,12 @@ public class soleXclusiveController {
     }
 
     @Autowired
-    public void TypeSneakersService(TypeSneakersService typeSneakersService) {
-        this.typeSneakersService = typeSneakersService;
-    }
+    public void TypeSneakersService(TypeSneakersService typeSneakersService) {this.typeSneakersService = typeSneakersService;}
     @Autowired
     public void OrdersService(OrdersService OrdersService) {this.OrdersService = OrdersService;}
 
+    @Autowired
+    public void UsersService(UsersService usersService) {this.usersService = usersService;}
 
     @GetMapping({"/", "/home"})
     public String home(Model model) {
@@ -59,25 +57,26 @@ public class soleXclusiveController {
     }
 
     @PostMapping("/home/filter")
-    public String filterByBrandAndType(@RequestParam int id_brand, @RequestParam int id_type_sneakers, Model model) {
-        if (id_brand == 0) {
-            model.addAttribute("stocks", stocksService.findByType(id_type_sneakers));
+    public String filterByBrandAndType(@RequestParam int id_brand,
+                                       @RequestParam int id_type_sneakers,
+                                       Model model) {
+
+        if (id_brand == 0 && id_type_sneakers == 0) {
             model.addAttribute("sneakers", sneakersService.findAll());
-            model.addAttribute("brands", brandsService.findAllBrands());
-            model.addAttribute("typeSneakers", typeSneakersService.findAll());
-            return "home";
+
+        } else if (id_brand == 0) {
+            model.addAttribute("sneakers", sneakersService.findByType(id_type_sneakers));
+
         } else if (id_type_sneakers == 0) {
-            model.addAttribute("stocks", stocksService.findByBrandId(id_brand));
-            model.addAttribute("sneakers", sneakersService.findAll());
-            model.addAttribute("brands", brandsService.findAllBrands());
-            model.addAttribute("typeSneakers", typeSneakersService.findAll());
-            return "home";
+            model.addAttribute("sneakers", sneakersService.findByBrand(id_brand));
+
         } else {
-            model.addAttribute("stocks", stocksService.findByBrandType(id_brand, id_type_sneakers));
-            model.addAttribute("sneakers", sneakersService.findAll());
-            model.addAttribute("brands", brandsService.findAllBrands());
-            model.addAttribute("typeSneakers", typeSneakersService.findAll());
+            model.addAttribute("sneakers", sneakersService.findByBrandType(id_brand, id_type_sneakers));
         }
+
+        // Esto siempre igual
+        model.addAttribute("brands", brandsService.findAllBrands());
+        model.addAttribute("typeSneakers", typeSneakersService.findAll());
 
         return "home";
     }
@@ -186,5 +185,75 @@ public class soleXclusiveController {
         session.removeAttribute("cart");
 
         return "redirect:/home"; // o a una página de confirmación
+    }
+    @GetMapping({"/home/profile"})
+    public String viewProfile(HttpSession session, Model model) {
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        user = usersService.findById(user.getId_user());
+        model.addAttribute("user", user);
+        return "profile";
+    }
+    @GetMapping({"/home/purchase-history"})
+    public String viewPurchaseHistory(HttpSession session, Model model) {
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        user = usersService.findById(user.getId_user());
+        List<Orders> orders = OrdersService.findByCustomerId(user.getId_user());
+
+        // Calcular gasto total
+        double totalSpent = 0;
+        if (orders != null && !orders.isEmpty()) {
+            for (Orders order : orders) {
+                totalSpent += order.getTotal();
+            }
+        }
+
+        model.addAttribute("orders", orders);
+        model.addAttribute("user", user);
+        model.addAttribute("totalSpent", String.format("%.2f", totalSpent));
+
+        return "purchase_history";
+    }
+    @GetMapping("/home/order-detail/{id}")
+    public String viewOrderDetail(@PathVariable int id, HttpSession session, Model model) {
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        Orders order = OrdersService.findById(id);
+
+        // Verificar que el pedido pertenece al usuario autenticado
+        if (order == null || order.getId_user().getId_user() != user.getId_user()) {
+            return "redirect:/home/purchase-history";
+        }
+
+        model.addAttribute("order", order);
+        return "order_detail";
+    }
+    @GetMapping("/home/logout")
+    public String logout(HttpSession session, Model model) {
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        user = usersService.findById(user.getId_user());
+        session.removeAttribute("user");
+        return "redirect:/home";
+    }
+    @GetMapping("/home/create-account")
+    public String viewCreateAccount(Model model) {
+        model.addAttribute("user", new Users());
+        return "create_account";
+    }
+    @PostMapping("/home/create-account/save")
+    public String createAccount(@ModelAttribute Users users) {
+        usersService.save(users);
+        return "redirect:/login";
     }
 }

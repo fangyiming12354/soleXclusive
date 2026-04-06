@@ -72,7 +72,7 @@ public class UsersController {
             if("admin".equalsIgnoreCase(u.getType_user())){
                 return "redirect:/sneakers"; // por ejemplo, panel de admin
             } else {
-                return "redirect:/brands"; // por ejemplo, página de cliente
+                return "redirect:/home"; // por ejemplo, página de cliente
             }
 
         } else {
