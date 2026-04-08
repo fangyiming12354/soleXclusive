@@ -1,0 +1,319 @@
+/* ============================================
+   ESTILOS FORMULARIOS ADMIN - SoleXclusive
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+
+.navbar {
+    background: rgba(15, 15, 15, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.8rem 0;
+}
+
+.nav_brand {
+    width: 110px;
+    height: 110px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(255, 184, 0, 0.2));
+    padding: 0.8rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+}
+
+.nav_brand:hover {
+    transform: scale(1.08);
+    filter: drop-shadow(0 4px 12px rgba(255, 184, 0, 0.4));
+    background: rgba(255, 184, 0, 0.1);
+}
+
+.navbar-nav .nav-link {
+    color: #fff !important;
+    margin-left: 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffb800 !important;
+    transform: translateY(-2px);
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #ffb800 0%, #ffd700 100%);
+    transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+
+.navbar-nav .nav-link.active {
+    color: #ffb800 !important;
+}
+
+/* ============================================
+   CONTENEDOR PRINCIPAL
+   ============================================ */
+
+.form-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+}
+
+/* ============================================
+   ENCABEZADO
+   ============================================ */
+
+.form-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    animation: slideDown 0.5s ease;
+}
+
+.form-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.form-header p {
+    color: #888;
+    font-size: 1rem;
+}
+
+/* ============================================
+   TARJETA DEL FORMULARIO
+   ============================================ */
+
+.form-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.5s ease;
+}
+
+.form-card-header {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border-bottom: 2px solid rgba(255, 184, 0, 0.2);
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.form-card-header i {
+    color: #ffb800;
+    font-size: 1.1rem;
+}
+
+.form-card-header h5 {
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   BODY DEL FORMULARIO
+   ============================================ */
+
+.form-card-body {
+    padding: 2rem 1.5rem;
+}
+
+/* ============================================
+   LABELS
+   ============================================ */
+
+.form-label {
+    color: #ccc;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.4rem;
+}
+
+/* ============================================
+   INPUTS, SELECTS, TEXTAREAS
+   ============================================ */
+
+.form-control,
+.form-select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: #fff;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-control::placeholder {
+    color: #666;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 184, 0, 0.5);
+    box-shadow: 0 0 0 3px rgba(255, 184, 0, 0.1);
+    color: #fff;
+    outline: none;
+}
+
+.form-control option,
+.form-select option {
+    background: #1a1a1a;
+    color: #fff;
+}
+
+/* File input */
+input[type="file"].form-control {
+    padding: 0.6rem 1rem;
+}
+
+input[type="file"].form-control::file-selector-button {
+    background: linear-gradient(135deg, #ffb800 0%, #ffd700 100%);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 1rem;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-right: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+input[type="file"].form-control::file-selector-button:hover {
+    box-shadow: 0 4px 10px rgba(255, 184, 0, 0.3);
+}
+
+/* ============================================
+   BOTONES
+   ============================================ */
+
+.btn-warning {
+    background: linear-gradient(135deg, #ffb800 0%, #ffd700 100%) !important;
+    border: none !important;
+    border-radius: 50px;
+    padding: 0.7rem 1.8rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 184, 0, 0.4);
+}
+
+.btn-outline-light {
+    border-radius: 50px;
+    padding: 0.7rem 1.8rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: #ccc;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   ANIMACIONES
+   ============================================ */
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 1.5rem 0.5rem;
+    }
+
+    .form-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .form-card-body {
+        padding: 1.5rem 1rem;
+    }
+
+    .nav_brand {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav_brand {
+        width: 45px;
+        height: 45px;
+    }
+
+    .form-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .d-flex.gap-2 {
+        flex-direction: column;
+    }
+
+    .d-flex.gap-2 a,
+    .d-flex.gap-2 button {
+        width: 100%;
+        text-align: center;
+    }
+}

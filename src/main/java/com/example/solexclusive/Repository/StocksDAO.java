@@ -13,5 +13,6 @@ public interface StocksDAO {
     List<Stocks> findByBrandId(int id_brand);
     List<Stocks> findByBrandType(int id_brand,int id_type_sneakers);
     List<Stocks> findByType(int id_type_sneakers);
+    List<Stocks> findBySneakerId(int id_sneaker);
 
 }

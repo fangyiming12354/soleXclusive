@@ -2,40 +2,108 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Usuarios</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{./css/styles_users.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles_admin_tables.css}">
 </head>
 <body>
-        <div class="container mt-4">
-            <h2>Listado de Usuarios</h2>
-            <a th:href="@{/users/new}" class="btn btn-primary mb-2">Alta Cliente</a>
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Correo electrónico</th>
-                    <th>Contraseña</th>
-                    <th>Rol</th>
-                    <th>Acciones</th>
 
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="user : ${users}">
-                    <td th:text="${user.id_user}"></td>
-                    <td th:text="${user.name}"></td>
-                    <td th:text="${user.email}"></td>
-                    <td th:text="${user.type_user == 'admin' ? user.password : '******'}"></td>
-                    <td th:text="${user.type_user}"></td>
-                    <td>
-                        <a th:if="${user.type_user != 'admin'}" th:href="@{/users/edit/{id}(id=${user.id_user})}" class="btn btn-warning btn-sm">Editar</a>
-                        <a th:if="${user.type_user != 'admin'}" th:href="@{/users/delete/{id}(id=${user.id_user})}" class="btn btn-danger btn-sm">Eliminar</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/admin}">
+            <img th:src="@{/img/logo_white_remove.png}" alt="SoleXclusive Logo" class="nav_brand">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin}"><i class="bi bi-speedometer2"></i> Panel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/users}"><i class="bi bi-people"></i> Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/home/logout}"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+                </li>
+            </ul>
         </div>
+    </div>
+</nav>
+
+<!-- CONTENIDO -->
+<div class="table-container">
+
+    <!-- ENCABEZADO -->
+    <div class="table-header">
+        <h1><i class="bi bi-people"></i> Listado de Usuarios</h1>
+        <p>Mostrando <span th:text="${#lists.size(users)}">0</span> usuarios registrados</p>
+    </div>
+
+    <!-- BARRA DE ACCIONES -->
+    <div class="actions-bar">
+        <div></div>
+        <a th:href="@{/users/new}" class="btn-add-new">
+            <i class="bi bi-plus-circle"></i> Nuevo Usuario
+        </a>
+    </div>
+
+    <!-- TABLA -->
+    <div class="table-card">
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Contraseña</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}" th:if="${user.type_user != 'admin'}">
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.email}"></td>
+                <td>
+                    <code class="password-cell" th:text="${user.password}"></code>
+                </td>
+                <td>
+        <span th:class="${user.type_user == 'admin'} ? 'badge-admin' : 'badge-user'"
+              th:text="${user.type_user == 'admin'} ? 'Administrador' : 'Cliente'"></span>
+                </td>
+                <td>
+                    <div class="table-actions">
+                        <a th:href="@{/users/edit/{id}(id=${user.id_user})}"
+                           class="btn-edit">
+                            <i class="bi bi-pencil"></i> Editar
+                        </a>
+                        <a th:href="@{/users/delete/{id}(id=${user.id_user})}"
+                           class="btn-delete"
+                           onclick="return confirm('¿Estás seguro de eliminar este usuario?')">
+                            <i class="bi bi-trash3"></i> Eliminar
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            <!-- TABLA VACÍA -->
+            <tr th:if="${#lists.isEmpty(users)}">
+                <td colspan="6">
+                    <div class="empty-table">
+                        <i class="bi bi-people"></i>
+                        <p>No hay usuarios registrados</p>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

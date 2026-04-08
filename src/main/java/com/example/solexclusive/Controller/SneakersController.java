@@ -114,7 +114,7 @@ public class SneakersController {
         }
         if(sneakers.getId_type_sneakers() !=null && sneakers.getId_type_sneakers().getId_type_sneakers() !=0){
             TypeSneakers typeSneakers = typeSneakersService.findById(sneakers.getId_type_sneakers().getId_type_sneakers());
-            sneakers.setId_type_sneakers(typeSneakers);
+            sneaker.setId_type_sneakers(typeSneakers);
         }
         sneakersService.update(sneaker);
 

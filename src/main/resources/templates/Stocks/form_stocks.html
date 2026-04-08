@@ -2,45 +2,120 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario Sneakers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario Stock - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles_admin_forms.css}">
 </head>
 <body>
-<div class="container mt-4">
 
-    <h2 th:text="${stock.id_stock == 0} ? 'Añadir Sneaker' : 'Editar Sneaker'"></h2>
-
-    <form th:action="${stock.id_stock == 0} ? @{/stocks/save} : @{/stocks/update}"
-          th:object="${stock}"
-          method="post"
-          enctype="multipart/form-data">
-
-        <input type="hidden" th:field="*{id_stock}"/>
-
-        <div class="mb-3">
-            <label class="form-label">Nombre de la zapatilla</label>
-            <select class="form-control" th:field="*{id_sneaker.id_sneaker}">
-                <option th:each="s : ${sneakers}"
-                        th:value="${s.id_sneaker}"
-                        th:text="${s.name}">
-                </option>
-            </select>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/admin}">
+            <img th:src="@{/img/logo_white_remove.png}" alt="SoleXclusive Logo" class="nav_brand">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin}"><i class="bi bi-speedometer2"></i> Panel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/stocks}"><i class="bi bi-box-seam"></i> Stock</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/home/logout}"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+                </li>
+            </ul>
         </div>
+    </div>
+</nav>
 
-        <div class="mb-3">
-            <label class="form-label">Talla</label>
-            <input type="number" step="0.5" class="form-control" th:field="*{size}" required />
+<!-- CONTENIDO -->
+<div class="form-container">
+
+    <!-- ENCABEZADO -->
+    <div class="form-header">
+        <h1 th:text="${stock.id_stock == 0 or stock.id_stock == null} ? '✚ Añadir Stock' : '✎ Editar Stock'"></h1>
+        <p th:text="${stock.id_stock == 0 or stock.id_stock == null} ? 'Rellena los datos del nuevo stock' : 'Modifica los datos del stock'"></p>
+    </div>
+
+    <!-- TARJETA DEL FORMULARIO -->
+    <div class="form-card">
+        <div class="form-card-header">
+            <i class="bi bi-box-seam"></i>
+            <h5>Datos del Stock</h5>
         </div>
+        <div class="form-card-body">
 
-        <div class="mb-3">
-            <label class="form-label">Cantidad</label>
-            <input type="number" step="1" class="form-control" th:field="*{quantity}" required />
+            <!-- MENSAJES DE ERROR -->
+            <div th:if="${error1}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle"></i>
+                <span th:text="${error1}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <div th:if="${error2}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle"></i>
+                <span th:text="${error2}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <form th:action="${stock.id_stock == 0 or stock.id_stock == null} ? @{/stocks/save} : @{/stocks/update}"
+                  th:object="${stock}"
+                  method="post">
+
+                <input type="hidden" th:field="*{id_stock}"/>
+
+                <!-- ZAPATILLA -->
+                <div class="mb-3">
+                    <label for="zapatilla" class="form-label">Zapatilla</label>
+                    <select class="form-control" id="zapatilla" name="id_sneaker" required>
+                        <option value="">-- Selecciona una zapatilla --</option>
+                        <option th:each="s : ${sneakers}"
+                                th:value="${s.id_sneaker}"
+                                th:text="${s.name}"
+                                th:selected="${stock.id_sneaker != null && stock.id_sneaker.id_sneaker == s.id_sneaker}">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- TALLA -->
+                <div class="mb-3">
+                    <label for="talla" class="form-label">Talla</label>
+                    <input type="number" step="0.5" min="30" max="50" class="form-control"
+                           id="talla" th:field="*{size}"
+                           placeholder="Ej: 40, 42.5, 44..." required />
+                </div>
+
+                <!-- CANTIDAD -->
+                <div class="mb-3">
+                    <label for="cantidad" class="form-label">Cantidad</label>
+                    <input type="number" step="1" min="0" class="form-control"
+                           id="cantidad" th:field="*{quantity}"
+                           placeholder="Ej: 10" required />
+                </div>
+
+                <!-- BOTONES -->
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-warning fw-bold text-dark">
+                        <i class="bi bi-check-circle"></i> Guardar
+                    </button>
+                    <a th:href="@{/stocks}" class="btn btn-outline-light">
+                        <i class="bi bi-arrow-left"></i> Cancelar
+                    </a>
+                </div>
+
+            </form>
+
         </div>
-
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="/sneakers" class="btn btn-secondary">Cancelar</a>
-
-    </form>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

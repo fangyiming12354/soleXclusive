@@ -2,70 +2,122 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario Sneakers</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles_admin_forms.css}">
 </head>
 <body>
-<div class="container mt-4">
 
-    <h2 th:text="${sneaker.id_sneaker == 0} ? 'Añadir Sneaker' : 'Editar Sneaker'"></h2>
-
-    <form th:action="${sneaker.id_sneaker == 0} ? @{/sneakers/save} : @{/sneakers/update}"
-          th:object="${sneaker}"
-          method="post"
-          enctype="multipart/form-data">
-
-        <input type="hidden" th:field="*{id_sneaker}"/>
-
-        <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input type="text" class="form-control" th:field="*{name}" required />
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/admin}">
+            <img th:src="@{/img/logo_white_remove.png}" alt="SoleXclusive Logo" class="nav_brand">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin}"><i class="bi bi-speedometer2"></i> Panel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/sneakers}"><i class="bi bi-shop-window"></i> Sneakers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/home/logout}"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+                </li>
+            </ul>
         </div>
+    </div>
+</nav>
 
-        <div class="mb-3">
-            <label class="form-label">Descripción</label>
-            <input type="text" class="form-control" th:field="*{description}" required />
+<!-- CONTENIDO -->
+<div class="form-container">
+
+    <!-- ENCABEZADO -->
+    <div class="form-header">
+        <h1 th:text="${sneaker.id_sneaker == 0} ? '✚ Añadir Sneaker' : '✎ Editar Sneaker'"></h1>
+        <p th:text="${sneaker.id_sneaker == 0} ? 'Rellena los campos para añadir una nueva zapatilla' : 'Modifica los datos de la zapatilla'"></p>
+    </div>
+
+    <!-- TARJETA DEL FORMULARIO -->
+    <div class="form-card">
+        <div class="form-card-header">
+            <i class="bi bi-shop-window"></i>
+            <h5>Datos de la Sneaker</h5>
         </div>
+        <div class="form-card-body">
 
-        <div class="mb-3">
-            <label class="form-label">Precio</label>
-            <input type="number" step="0.01" class="form-control" th:field="*{price}" required />
+            <form th:action="${sneaker.id_sneaker == 0} ? @{/sneakers/save} : @{/sneakers/update}"
+                  th:object="${sneaker}"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <input type="hidden" th:field="*{id_sneaker}"/>
+
+                <div class="mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" th:field="*{name}" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Descripción</label>
+                    <input type="text" class="form-control" th:field="*{description}" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Precio</label>
+                    <input type="number" step="0.01" class="form-control" th:field="*{price}" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Marca</label>
+                    <select class="form-control" th:field="*{id_brands.id_brand}">
+                        <option th:each="b : ${brands}"
+                                th:value="${b.id_brand}"
+                                th:text="${b.name}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tipo</label>
+                    <select class="form-control" th:field="*{id_type_sneakers.id_type_sneakers}">
+                        <option th:each="t : ${typeSneakers}"
+                                th:value="${t.id_type_sneakers}"
+                                th:text="${t.name}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Imagen</label>
+                    <input type="file" class="form-control" name="images"/>
+                </div>
+
+                <div class="mb-3" th:if="${sneaker.filePath != null}">
+                    <img th:src="@{/images/{img}(img=${sneaker.filePath})}" width="150" style="border-radius: 10px;"/>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-warning fw-bold text-dark">
+                        <i class="bi bi-check-circle"></i> Guardar
+                    </button>
+                    <a th:href="@{/sneakers}" class="btn btn-outline-light">
+                        <i class="bi bi-arrow-left"></i> Cancelar
+                    </a>
+                </div>
+
+            </form>
+
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">Marca</label>
-            <select class="form-control" th:field="*{id_brands.id_brand}">
-                <option th:each="b : ${brands}"
-                        th:value="${b.id_brand}"
-                        th:text="${b.name}">
-                </option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Tipo</label>
-            <select class="form-control" th:field="*{id_type_sneakers.id_type_sneakers}">
-                <option th:each="t : ${typeSneakers}"
-                        th:value="${t.id_type_sneakers}"
-                        th:text="${t.name}">
-                </option>
-            </select>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Imagen</label>
-            <input type="file" class="form-control" name="images"/>
-        </div>
-
-        <div class="mb-3" th:if="${sneaker.filePath != null}">
-            <img th:src="@{/images/{img}(img=${sneaker.filePath})}" width="150"/>
-        </div>
-
-
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="/sneakers" class="btn btn-secondary">Cancelar</a>
-
-    </form>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

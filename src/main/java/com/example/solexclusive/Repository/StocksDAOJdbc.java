@@ -154,6 +154,25 @@ public class StocksDAOJdbc implements StocksDAO {
         return stocks;
     }
 
+    @Override
+    public List<Stocks> findBySneakerId(int id_sneaker) {
+        String sql = "select st.id_stock,st.size,st.quantity,s.id_sneaker,s.name sneaker_name,s.description sneaker_description,s.price sneaker_price," +
+                "s.filePath sneaker_filePath,b.id_brand,b.name brand_name,t.id_type_sneaker,t.name type_name from stocks st join sneakers s on st.id_sneaker = s.id_sneaker " +
+                "join brands b on s.id_brand = b.id_brand join type_sneakers t on s.id_type_sneaker = t.id_type_sneaker where s.id_sneaker=?";
+        List<Stocks> stocks = new ArrayList<>();
+        try {
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
+            ps.setInt(1, id_sneaker);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                stocks.add(mapStocks(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return stocks;
+    }
+
     public Stocks mapStocks(ResultSet rs) throws SQLException {
         Stocks stocks = new Stocks();
         stocks.setId_stock(rs.getInt("id_stock"));

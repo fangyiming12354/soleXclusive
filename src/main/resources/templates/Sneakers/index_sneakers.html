@@ -2,62 +2,122 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Sneakers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sneakers - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/styles_users.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles_admin_tables.css}">
 </head>
 <body>
-<div class="container mt-4">
-    <h2>Listado de Zapatillas</h2>
-    <div class="row">
-            <div class="col-md-3">
-                <form th:action="@{/sneakers/filter}" method="get" class="filter-box">
-                    <div th:each="b : ${brands}">
-                        <input type="radio" name="id_brand" th:value="${b.id_brand}">
-                        <label th:text="${b.name}"></label>
-                    </div>
 
-                    <button type="submit" class="btn btn-primary mt-2">Filtrar</button>
-                    <a th:href="@{/sneakers}" class="btn btn-secondary mt-2">Mostrar todos</a>
-                </form>
-            </div>
-
-        <div class="col-md-9">
-            <a th:href="@{/sneakers/new}" class="btn btn-primary mb-2">Añadir zapatillas</a>
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Precio</th>
-                    <th>Marca</th>
-                    <th>Tipo</th>
-                    <th>Imagen</th>
-                    <th>Acciones</th>
-
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="sneaker : ${sneakers}">
-                    <td th:text="${sneaker.id_sneaker}"></td>
-                    <td th:text="${sneaker.name}"></td>
-                    <td th:text="${sneaker.description}"></td>
-                    <td th:text="${sneaker.price}"></td>
-                    <td th:text="${sneaker.id_brands.name}"></td>
-                    <td th:text="${sneaker.id_type_sneakers.name}"></td>
-                    <td>
-                        <img th:src="@{/images/{img}(img=${sneaker.filePath})}" width="40">
-                    </td>
-                    <td>
-                        <a th:href="@{/sneakers/edit/{id}(id=${sneaker.id_sneaker})}" class="btn btn-warning btn-sm">Editar</a>
-                        <a th:href="@{/sneakers/delete/{id}(id=${sneaker.id_sneaker})}" class="btn btn-danger btn-sm">Eliminar</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/admin}">
+            <img th:src="@{/img/logo_white_remove.png}" alt="SoleXclusive Logo" class="nav_brand">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin}"><i class="bi bi-speedometer2"></i> Panel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/sneakers}"><i class="bi bi-shop-window"></i> Sneakers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/home/logout}"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+                </li>
+            </ul>
         </div>
     </div>
+</nav>
+
+<!-- CONTENIDO -->
+<div class="table-container">
+
+    <!-- ENCABEZADO -->
+    <div class="table-header">
+        <h1><i class="bi bi-shop-window"></i> Listado de Sneakers</h1>
+        <p>Mostrando <span th:text="${#lists.size(sneakers)}">0</span> zapatillas</p>
+    </div>
+
+    <div class="row">
+
+        <!-- FILTRO LATERAL -->
+        <div class="col-lg-3 mb-4">
+            <div class="filter-card">
+                <div class="filter-card-header">
+                    <i class="bi bi-funnel"></i>
+                    <h5>Filtrar por marca</h5>
+                </div>
+                <div class="filter-card-body">
+                    <form th:action="@{/sneakers/filter}" method="get">
+                        <div th:each="b : ${brands}" class="filter-option">
+                            <input type="radio" name="id_brand" th:value="${b.id_brand}" th:id="'brand-' + ${b.id_brand}">
+                            <label th:for="'brand-' + ${b.id_brand}" th:text="${b.name}"></label>
+                        </div>
+                        <div class="filter-actions">
+                            <button type="submit" class="btn-filter"><i class="bi bi-search"></i> Filtrar</button>
+                            <a th:href="@{/sneakers}" class="btn-clear"><i class="bi bi-x-circle"></i> Mostrar todos</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- BOTÓN AÑADIR -->
+            <a th:href="@{/sneakers/new}" class="btn-add-new mt-3 w-100 justify-content-center">
+                <i class="bi bi-plus-circle"></i> Añadir Sneaker
+            </a>
+        </div>
+
+        <!-- TABLA -->
+        <div class="col-lg-9">
+            <div class="table-card">
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Marca</th>
+                        <th>Tipo</th>
+                        <th>Imagen</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="sneaker : ${sneakers}">
+                        <td th:text="${sneaker.name}"></td>
+                        <td th:text="${sneaker.description}"></td>
+                        <td class="price-cell" th:text="'€' + ${#numbers.formatDecimal(sneaker.price, 1, 2)}"></td>
+                        <td th:text="${sneaker.id_brands.name}"></td>
+                        <td th:text="${sneaker.id_type_sneakers.name}"></td>
+                        <td>
+                            <img th:src="@{/images/{img}(img=${sneaker.filePath})}" alt="img">
+                        </td>
+                        <td>
+                            <div class="table-actions">
+                                <a th:href="@{/sneakers/edit/{id}(id=${sneaker.id_sneaker})}" class="btn-edit">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </a>
+                                <a th:href="@{/sneakers/delete/{id}(id=${sneaker.id_sneaker})}" class="btn-delete">
+                                    <i class="bi bi-trash3"></i> Eliminar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

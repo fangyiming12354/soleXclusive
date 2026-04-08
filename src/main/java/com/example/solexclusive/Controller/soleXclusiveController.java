@@ -1,9 +1,6 @@
 package com.example.solexclusive.Controller;
 
-import com.example.solexclusive.Model.OrderItems;
-import com.example.solexclusive.Model.Orders;
-import com.example.solexclusive.Model.Sneakers;
-import com.example.solexclusive.Model.Users;
+import com.example.solexclusive.Model.*;
 import com.example.solexclusive.Service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +85,7 @@ public class soleXclusiveController {
         model.addAttribute("sneaker", sneaker);
         model.addAttribute("typeSneakers", typeSneakersService.findAll());
         model.addAttribute("brands", brandsService.findAllBrands());
-        model.addAttribute("stocks", stocksService.findAll());
+        model.addAttribute("stocks", stocksService.findBySneakerId(id));
 
         // productos relacionados (ejemplo: misma marca)
         List<Sneakers> related = sneakersService.findByBrand(sneaker.getId_brands().getId_brand());
@@ -98,7 +95,6 @@ public class soleXclusiveController {
     }
 
     @PostMapping({"/home/cart/add"})
-
     public String addToCart(@RequestParam int id_sneaker,
                             @RequestParam double size,
                             @RequestParam int quantity,
@@ -109,8 +105,29 @@ public class soleXclusiveController {
         Users user = (Users) session.getAttribute("user");
 
         if (user == null) {
-            // Redirigir al login si no está autenticado
             return "redirect:/login";
+        }
+
+        // Obtener el sneaker
+        Sneakers sneaker = sneakersService.findById(id_sneaker);
+
+        // Buscar el stock disponible para este sneaker y talla
+        List<Stocks> allStocks = stocksService.findAll();
+        int availableQuantity = 0;
+
+        for (Stocks stock : allStocks) {
+            if (stock.getId_sneaker().getId_sneaker() == id_sneaker && stock.getSize() == size) {
+                availableQuantity = stock.getQuantity();
+                break;
+            }
+        }
+
+        // Validar que la cantidad solicitada no exceda el stock disponible
+        if (quantity > availableQuantity) {
+            // Redirigir de vuelta al producto con error
+            model.addAttribute("error", "La cantidad solicitada supera el stock disponible. Stock: " + availableQuantity);
+            model.addAttribute("sneaker", sneaker);
+            return "redirect:/home/sneakers/" + id_sneaker + "?error=stock";
         }
 
         // Obtener o crear el carrito temporal (Order) en sesión
@@ -119,9 +136,6 @@ public class soleXclusiveController {
             cart = new Orders();
             cart.setId_user(user);
         }
-
-        // Obtener el sneaker
-        Sneakers sneaker = sneakersService.findById(id_sneaker);
 
         // Crear un item del pedido
         OrderItems item = new OrderItems();
@@ -153,7 +167,7 @@ public class soleXclusiveController {
         session.setAttribute("cart", cart);
 
         // Redirigir al producto o al carrito
-        return "redirect:/home/sneakers/" + id_sneaker;
+        return "redirect:/home";
     }
     @GetMapping("/home/cart")
     public String viewCart(HttpSession session, Model model) {
@@ -239,9 +253,6 @@ public class soleXclusiveController {
     @GetMapping("/home/logout")
     public String logout(HttpSession session, Model model) {
         Users user = (Users) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/login";
-        }
         user = usersService.findById(user.getId_user());
         session.removeAttribute("user");
         return "redirect:/home";

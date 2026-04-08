@@ -23,4 +23,5 @@ public class StocksService {
     public List<Stocks> findByBrandId(int id_brand) {return stocksDAO.findByBrandId(id_brand);}
     public List<Stocks> findByBrandType(int id_brand,int id_type_sneakers) {return stocksDAO.findByBrandType(id_brand,id_type_sneakers);}
     public List<Stocks> findByType(int id_type_sneakers) {return stocksDAO.findByType(id_type_sneakers);}
+    public List<Stocks> findBySneakerId(int id_sneaker) {return stocksDAO.findBySneakerId(id_sneaker);}
 }

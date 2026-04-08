@@ -2,29 +2,83 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Formulario Marcas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario Marcas - Admin</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" th:href="@{/css/styles_admin_forms.css}">
 </head>
 <body>
-<div class="container mt-4">
 
-  <h2 th:text="${brand.id_brand == 0} ? 'Añadir Marca' : 'Editar Marca'"></h2>
-
-  <form th:action="${brand.id_brand == 0} ? @{/brands/save} : @{/brands/update}"
-        th:object="${brand}"
-        method="post">
-
-    <input type="hidden" th:field="*{id_brand}"/>
-
-    <div class="mb-3">
-      <label for="nombre" class="form-label">Nombre</label>
-      <input type="text" class="form-control" id="nombre" th:field="*{name}" required />
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" th:href="@{/admin}">
+      <img th:src="@{/img/logo_white_remove.png}" alt="SoleXclusive Logo" class="nav_brand">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/admin}"><i class="bi bi-speedometer2"></i> Panel</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" th:href="@{/brands}"><i class="bi bi-tags"></i> Marcas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/home/logout}"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+        </li>
+      </ul>
     </div>
+  </div>
+</nav>
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
-    <a href="/brands" class="btn btn-secondary">Cancelar</a>
+<!-- CONTENIDO -->
+<div class="form-container">
 
-  </form>
+  <!-- ENCABEZADO -->
+  <div class="form-header">
+    <h1 th:text="${brand.id_brand == 0} ? '✚ Añadir Marca' : '✎ Editar Marca'"></h1>
+    <p th:text="${brand.id_brand == 0} ? 'Rellena el nombre de la nueva marca' : 'Modifica los datos de la marca'"></p>
+  </div>
+
+  <!-- TARJETA DEL FORMULARIO -->
+  <div class="form-card">
+    <div class="form-card-header">
+      <i class="bi bi-tags"></i>
+      <h5>Datos de la Marca</h5>
+    </div>
+    <div class="form-card-body">
+
+      <form th:action="${brand.id_brand == 0} ? @{/brands/save} : @{/brands/update}"
+            th:object="${brand}"
+            method="post">
+
+        <input type="hidden" th:field="*{id_brand}"/>
+
+        <div class="mb-3">
+          <label for="nombre" class="form-label">Nombre de la marca</label>
+          <input type="text" class="form-control" id="nombre" th:field="*{name}"
+                 placeholder="Ej: Nike, Adidas, New Balance..." required />
+        </div>
+
+        <div class="d-flex gap-2 mt-4">
+          <button type="submit" class="btn btn-warning fw-bold text-dark">
+            <i class="bi bi-check-circle"></i> Guardar
+          </button>
+          <a th:href="@{/brands}" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left"></i> Cancelar
+          </a>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

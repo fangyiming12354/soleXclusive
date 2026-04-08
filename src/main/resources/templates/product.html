@@ -31,9 +31,6 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/home/profile}"><i class="bi bi-person"></i> Perfil</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/home/logout}"><i class="bi bi-box-arrow-right"></i> Logout</a>
-                </li>
             </ul>
         </div>
     </div>
@@ -42,13 +39,29 @@
 <!-- CONTENEDOR PRINCIPAL -->
 <div class="container-product">
 
+    <!-- MENSAJES DE ALERTA -->
+    <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+        <i class="bi bi-exclamation-circle"></i>
+        <strong>Stock Insuficiente:</strong>
+        <span th:if="${param.error == 'stock'}">
+        La cantidad solicitada supera el stock disponible.
+    </span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <i class="bi bi-check-circle"></i>
+        <strong>Éxito:</strong> Producto agregado al carrito
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <!-- PRODUCTO -->
     <div class="product-page">
 
         <!-- IZQUIERDA: IMAGEN -->
         <div class="product-image-section">
             <div class="product-image-box">
-                <img th:src="@{/img/img_sneakers/{img}(img=${sneaker.filePath})}"
+                <img th:src="@{/images/{img}(img=${sneaker.filePath})}"
                      th:alt="${sneaker.name}" class="product-img">
             </div>
         </div>
