@@ -23,18 +23,29 @@ body {
     background: rgba(15, 15, 15, 0.95) !important;
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.5rem 0 !important;
+    padding: 0.4rem 0 !important;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    margin: 0;
 }
 
 .nav_brand {
-    width: 110px;
-    height: 110px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     transition: all 0.3s ease;
     filter: drop-shadow(0 2px 4px rgba(255, 184, 0, 0.2));
-    padding: 0.8rem;
+    padding: 0.2rem;
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
+    border-radius: 8px;
 }
 
 .nav_brand:hover {
@@ -47,6 +58,8 @@ body {
     color: #fff !important;
     margin-left: 1.5rem;
     font-weight: 500;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.5rem !important;
     transition: all 0.3s ease;
     position: relative;
 }
@@ -78,6 +91,20 @@ svg {
 
 svg:hover {
     filter: drop-shadow(0 0 8px rgba(255, 184, 0, 0.5));
+}
+
+.user-name-nav {
+    color: #ffb800 !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+}
+
+.user-name-nav:hover {
+    color: #ffd700 !important;
 }
 
 /* ============================================
@@ -119,5 +146,382 @@ svg:hover {
    TARJETAS
    ============================================ */
 
-.card {
-    background: rgba(
+.profile-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.5s ease;
+    margin-bottom: 1.5rem;
+}
+
+.profile-card .card-header {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%) !important;
+    border-bottom: 2px solid rgba(255, 184, 0, 0.2) !important;
+    color: #ffb800 !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+    padding: 1rem 1.2rem;
+}
+
+.profile-card .card-header i {
+    margin-right: 0.5rem;
+}
+
+.profile-card .card-body {
+    padding: 1.5rem;
+    background: transparent !important;
+}
+
+/* ============================================
+   AVATAR
+   ============================================ */
+
+.avatar-container {
+    text-align: center;
+    margin-bottom: 1.2rem;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255, 184, 0, 0.15) 0%, rgba(255, 215, 0, 0.05) 100%);
+    border: 2px solid rgba(255, 184, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+.avatar i {
+    font-size: 2.2rem;
+    color: #ffb800;
+}
+
+.avatar:hover {
+    border-color: rgba(255, 184, 0, 0.6);
+    transform: scale(1.08);
+}
+
+/* ============================================
+   INFO USUARIO
+   ============================================ */
+
+.user-info {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.user-name {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+}
+
+.user-email {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.badge-type {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(255, 184, 0, 0.2) 0%, rgba(255, 215, 0, 0.1) 100%);
+    color: #ffb800;
+    padding: 0.3rem 1rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(255, 184, 0, 0.3);
+}
+
+/* ============================================
+   ITEMS DE INFORMACIÓN
+   ============================================ */
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.info-item:last-of-type {
+    border-bottom: none;
+}
+
+.info-label {
+    color: #888;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.info-label i {
+    color: #ffb800;
+    margin-right: 0.4rem;
+}
+
+.info-value {
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   BOTONES PERFIL
+   ============================================ */
+
+.btn-edit {
+    background: linear-gradient(135deg, #ffb800 0%, #ffd700 100%);
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-edit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 184, 0, 0.4);
+    color: #000;
+}
+
+.btn-security {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ccc;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-security:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.btn-secondary-custom {
+    background: rgba(255, 255, 255, 0.05);
+    color: #ccc;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.btn-secondary-custom:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   SECCIÓN MI CUENTA
+   ============================================ */
+
+.section-title {
+    color: #ffb800;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.info-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.info-box:hover {
+    border-color: rgba(255, 184, 0, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.info-box i {
+    font-size: 2rem;
+    color: #ffb800;
+    margin-bottom: 0.8rem;
+    display: block;
+}
+
+.info-box h6 {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+}
+
+.info-box p {
+    color: #888;
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+}
+
+.link-view {
+    color: #ffb800;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.link-view:hover {
+    color: #ffd700;
+    text-decoration: underline;
+}
+
+/* ============================================
+   FORMULARIOS DE PERFIL (Editar / Cambiar Contraseña)
+   ============================================ */
+
+.form-label-custom {
+    color: #ccc;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.form-control-custom {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: #fff;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.form-control-custom::placeholder {
+    color: #666;
+}
+
+.form-control-custom:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 184, 0, 0.5);
+    box-shadow: 0 0 0 3px rgba(255, 184, 0, 0.1);
+    color: #fff;
+    outline: none;
+}
+
+/* ============================================
+   ALERTAS
+   ============================================ */
+
+.alert-custom {
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.alert-success-custom {
+    background: rgba(81, 207, 102, 0.15);
+    border: 1px solid rgba(81, 207, 102, 0.3);
+    color: #51cf66;
+}
+
+.alert-error-custom {
+    background: rgba(255, 107, 107, 0.15);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    color: #ff6b6b;
+}
+
+/* ============================================
+   BOTÓN CANCELAR PEDIDO
+   ============================================ */
+
+.btn-cancel-order {
+    background: rgba(255, 107, 107, 0.1);
+    border: 2px solid rgba(255, 107, 107, 0.3);
+    color: #ff6b6b;
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-cancel-order:hover {
+    background: rgba(255, 107, 107, 0.25);
+    border-color: rgba(255, 107, 107, 0.6);
+    color: #ff6b6b;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.2);
+}
+
+@media (max-width: 768px) {
+    .container-profile {
+        padding: 1.5rem 0.5rem;
+    }
+
+    .profile-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .nav_brand {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav_brand {
+        width: 40px;
+        height: 40px;
+    }
+
+    .profile-header h1 {
+        font-size: 1.4rem;
+    }
+}

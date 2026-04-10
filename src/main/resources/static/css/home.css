@@ -11,7 +11,7 @@
 body {
     background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
     color: #fff;
-    font-family: Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
 }
 
@@ -23,7 +23,10 @@ body {
     background: rgba(15, 15, 15, 0.95) !important;
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.8rem 0;
+    padding: 0.4rem 0 !important;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
 }
 
 /* ============================================
@@ -31,14 +34,14 @@ body {
    ============================================ */
 
 .nav_brand {
-    width: 110px;
-    height: 110px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     transition: all 0.3s ease;
     filter: drop-shadow(0 2px 4px rgba(255, 184, 0, 0.2));
-    padding: 0.8rem;
+    padding: 0.2rem;
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
+    border-radius: 8px;
 }
 
 .nav_brand:hover {
@@ -51,13 +54,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem 0;
+    padding: 0 !important;
+    margin: 0;
 }
 
 .navbar-nav .nav-link {
     color: #fff !important;
     margin-left: 1.5rem;
     font-weight: 500;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.5rem !important;
     transition: all 0.3s ease;
     position: relative;
 }
@@ -89,6 +95,20 @@ svg {
 
 svg:hover {
     filter: drop-shadow(0 0 8px rgba(255, 184, 0, 0.5));
+}
+
+.user-name-nav {
+    color: #ffb800 !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+}
+
+.user-name-nav:hover {
+    color: #ffd700 !important;
 }
 
 /* ============================================
@@ -155,6 +175,11 @@ svg:hover {
     max-width: 1400px;
     margin: 0 auto;
     padding: 2rem 1rem;
+}
+
+.navbar .container-fluid {
+    max-width: 100%;
+    padding: 0 1rem;
 }
 
 /* ============================================
@@ -541,7 +566,7 @@ svg:hover {
 
     .navbar-nav .nav-link {
         margin-left: 0;
-        padding: 0.5rem 1rem;
+        padding: 0.3rem 1rem !important;
     }
 }
 

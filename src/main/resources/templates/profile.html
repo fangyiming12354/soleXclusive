@@ -11,7 +11,7 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-md bg-body-tertiary">
+<nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="/home">
       <img th:src="@{/img/logo_white_remove.png}" class="nav_brand" alt="SoleXclusive Logo">
@@ -31,8 +31,16 @@
         <li class="nav-item">
           <a class="nav-link" href="/home">INICIO</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Mi Perfil</a>
+        <li class="nav-item" th:if="${session.user != null}">
+          <a class="nav-link user-name-nav active" href="#">
+            <i class="bi bi-person-circle"></i>
+            <span th:text="${session.user.name}"></span>
+          </a>
+        </li>
+        <li class="nav-item" th:if="${session.user == null}">
+          <a class="nav-link user-name-nav" href="/login">
+            <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/home/logout">Cerrar Sesión</a>
@@ -93,10 +101,10 @@
 
           <!-- Botones de acciones -->
           <div class="d-grid gap-2 mt-4">
-            <a href="/profile/edit" class="btn btn-edit">
+            <a th:href="@{/profile/edit}" class="btn btn-edit">
               <i class="bi bi-pencil"></i> Editar Perfil
             </a>
-            <a href="/profile/change-password" class="btn btn-security">
+            <a th:href="@{/profile/change-password}" class="btn btn-security">
               <i class="bi bi-lock"></i> Cambiar Contraseña
             </a>
           </div>
@@ -122,9 +130,7 @@
               <p>Ver historial de pedidos</p>
               <a href="/home/purchase-history" class="link-view">Ver mis compras →</a>
             </div>
-
-
-
+          </div>
 
           <!-- Botón volver -->
           <a href="/home" class="btn btn-secondary-custom w-100 mt-4">

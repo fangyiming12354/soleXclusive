@@ -15,6 +15,98 @@ body {
     min-height: 100vh;
 }
 
+/* ============================================
+   NAVBAR
+   ============================================ */
+
+.navbar {
+    background: rgba(15, 15, 15, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.4rem 0 !important;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    margin: 0;
+}
+
+.nav_brand {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(255, 184, 0, 0.2));
+    padding: 0.2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+.nav_brand:hover {
+    transform: scale(1.08);
+    filter: drop-shadow(0 4px 12px rgba(255, 184, 0, 0.4));
+    background: rgba(255, 184, 0, 0.1);
+}
+
+.navbar-nav .nav-link {
+    color: #fff !important;
+    margin-left: 1.5rem;
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.5rem !important;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ffb800 !important;
+    transform: translateY(-2px);
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #ffb800 0%, #ffd700 100%);
+    transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+
+svg {
+    fill: currentColor;
+    transition: all 0.3s ease;
+}
+
+svg:hover {
+    filter: drop-shadow(0 0 8px rgba(255, 184, 0, 0.5));
+}
+
+.user-name-nav {
+    color: #ffb800 !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+}
+
+.user-name-nav:hover {
+    color: #ffd700 !important;
+}
+
 /* Contenedor principal */
 .container {
     max-width: 1200px;

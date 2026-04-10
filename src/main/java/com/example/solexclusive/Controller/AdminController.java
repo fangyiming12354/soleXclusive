@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.ui.Model;
 
 @Controller
@@ -58,5 +59,26 @@ public class AdminController {
         model.addAttribute("orders", OrdersService.findAll());
         model.addAttribute("user", user);
         return "admin_orders";
+    }
+
+    @GetMapping("/admin/orders/{id}")
+    public String adminOrderDetail(@PathVariable int id, HttpSession session, Model model) {
+        Users user = (Users) session.getAttribute("user");
+        if (user == null || !"admin".equalsIgnoreCase(user.getType_user())) {
+            return "redirect:/login";
+        }
+        model.addAttribute("order", OrdersService.findById(id));
+        model.addAttribute("user", user);
+        return "admin_order_detail";
+    }
+
+    @GetMapping("/admin/orders/delete/{id}")
+    public String adminDeleteOrder(@PathVariable int id, HttpSession session) {
+        Users user = (Users) session.getAttribute("user");
+        if (user == null || !"admin".equalsIgnoreCase(user.getType_user())) {
+            return "redirect:/login";
+        }
+        OrdersService.delete(id);
+        return "redirect:/admin/orders";
     }
 }

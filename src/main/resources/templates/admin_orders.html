@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles_admin_tables.css}">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/admin}">
+            <img th:src="@{/img/logo_white_remove.png}" alt="SoleXclusive Logo" class="nav_brand">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin}"><i class="bi bi-speedometer2"></i> Panel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/admin/orders}"><i class="bi bi-receipt-cutoff"></i> Pedidos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/home/logout}"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- CONTENIDO -->
+<div class="table-container">
+
+    <!-- ENCABEZADO -->
+    <div class="table-header">
+        <h1><i class="bi bi-receipt-cutoff"></i> Listado de Pedidos</h1>
+        <p>Mostrando <span th:text="${#lists.size(orders)}">0</span> pedidos</p>
+    </div>
+
+    <!-- SI NO HAY PEDIDOS -->
+    <div th:if="${orders == null or orders.isEmpty()}" class="text-center py-5">
+        <i class="bi bi-inbox" style="font-size: 4rem; color: #555;"></i>
+        <p class="mt-3" style="color: #888;">No hay pedidos registrados</p>
+    </div>
+
+    <!-- SI HAY PEDIDOS -->
+    <div th:if="${orders != null and !orders.isEmpty()}">
+        <div class="table-card">
+            <table class="admin-table">
+                <thead>
+                <tr>
+                    <th># Pedido</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orders}">
+                    <td th:text="${order.id_order}"></td>
+                    <td th:text="${order.id_user.name}"></td>
+                    <td th:text="${#temporals.format(order.date, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td class="price-cell" th:text="'€' + ${#numbers.formatDecimal(order.total, 1, 2)}"></td>
+                    <td>
+                        <div class="table-actions">
+                            <a th:href="@{/admin/orders/{id}(id=${order.id_order})}" class="btn-edit">
+                                <i class="bi bi-eye"></i> Ver
+                            </a>
+                            <a th:href="@{/admin/orders/delete/{id}(id=${order.id_order})}" class="btn-delete"
+                               onclick="return confirm('¿Estás seguro de eliminar este pedido?')">
+                                <i class="bi bi-trash3"></i> Eliminar
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

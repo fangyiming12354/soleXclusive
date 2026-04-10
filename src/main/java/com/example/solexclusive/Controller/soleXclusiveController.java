@@ -267,4 +267,89 @@ public class soleXclusiveController {
         usersService.save(users);
         return "redirect:/login";
     }
+
+    // ==================== EDITAR PERFIL ====================
+    @GetMapping("/profile/edit")
+    public String showEditProfile(HttpSession session, Model model) {
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        user = usersService.findById(user.getId_user());
+        model.addAttribute("user", user);
+        return "edit_profile";
+    }
+
+    @PostMapping("/profile/edit")
+    public String updateProfile(@ModelAttribute Users user, HttpSession session, Model model) {
+        Users sessionUser = (Users) session.getAttribute("user");
+        if (sessionUser == null) {
+            return "redirect:/login";
+        }
+        // Mantener el tipo de usuario original
+        Users currentUser = usersService.findById(sessionUser.getId_user());
+        user.setType_user(currentUser.getType_user());
+        usersService.update(user, false);
+        // Actualizar sesión con datos nuevos
+        session.setAttribute("user", usersService.findById(user.getId_user()));
+        model.addAttribute("user", usersService.findById(user.getId_user()));
+        model.addAttribute("success", "Perfil actualizado correctamente");
+        return "edit_profile";
+    }
+
+    // ==================== CAMBIAR CONTRASEÑA ====================
+    @GetMapping("/profile/change-password")
+    public String showChangePassword(HttpSession session) {
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        return "change_password";
+    }
+
+    @PostMapping("/profile/change-password")
+    public String changePassword(@RequestParam String currentPassword,
+                                 @RequestParam String newPassword,
+                                 @RequestParam String confirmPassword,
+                                 HttpSession session, Model model) {
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        Users currentUser = usersService.findById(user.getId_user());
+
+        // Verificar contraseña actual
+        if (!currentUser.getPassword().equals(currentPassword)) {
+            model.addAttribute("error", "La contraseña actual no es correcta");
+            return "change_password";
+        }
+
+        // Verificar que las contraseñas nuevas coinciden
+        if (!newPassword.equals(confirmPassword)) {
+            model.addAttribute("error", "Las contraseñas nuevas no coinciden");
+            return "change_password";
+        }
+
+        // Actualizar contraseña
+        currentUser.setPassword(newPassword);
+        usersService.update(currentUser, false);
+        session.setAttribute("user", usersService.findById(currentUser.getId_user()));
+        model.addAttribute("success", "Contraseña cambiada correctamente");
+        return "change_password";
+    }
+
+    // ==================== CANCELAR PEDIDO ====================
+    @GetMapping("/home/order/cancel/{id}")
+    public String cancelOrder(@PathVariable int id, HttpSession session) {
+        Users user = (Users) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        Orders order = OrdersService.findById(id);
+        // Verificar que el pedido pertenece al usuario
+        if (order != null && order.getId_user().getId_user() == user.getId_user()) {
+            OrdersService.delete(id);
+        }
+        return "redirect:/home/purchase-history";
+    }
 }
