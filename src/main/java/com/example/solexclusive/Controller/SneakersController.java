@@ -3,7 +3,6 @@ package com.example.solexclusive.Controller;
 import com.example.solexclusive.Model.Brands;
 import com.example.solexclusive.Model.Sneakers;
 import com.example.solexclusive.Model.TypeSneakers;
-import com.example.solexclusive.Repository.SneakersDAO;
 import com.example.solexclusive.Service.BrandsService;
 import com.example.solexclusive.Service.SneakersService;
 import com.example.solexclusive.Service.TypeSneakersService;
@@ -38,12 +37,24 @@ public class SneakersController {
     public String sneakers(Model model){
         model.addAttribute("sneakers",sneakersService.findAll());
         model.addAttribute("brands", brandsService.findAllBrands());
+        model.addAttribute("typeSneakers", typeSneakersService.findAll());
         return "Sneakers/index_sneakers";
     }
     @GetMapping("/sneakers/filter")
-    public String filterByBrand(@RequestParam int id_brand, Model model){
-        model.addAttribute("sneakers", sneakersService.findByBrand(id_brand));
+    public String filterSneakers(@RequestParam int id_brand,
+                                 @RequestParam int id_type_sneakers,
+                                 Model model){
+        if (id_brand == 0 && id_type_sneakers == 0) {
+            model.addAttribute("sneakers", sneakersService.findAll());
+        } else if (id_brand == 0) {
+            model.addAttribute("sneakers", sneakersService.findByType(id_type_sneakers));
+        } else if (id_type_sneakers == 0) {
+            model.addAttribute("sneakers", sneakersService.findByBrand(id_brand));
+        } else {
+            model.addAttribute("sneakers", sneakersService.findByBrandType(id_brand, id_type_sneakers));
+        }
         model.addAttribute("brands", brandsService.findAllBrands());
+        model.addAttribute("typeSneakers", typeSneakersService.findAll());
         return "Sneakers/index_sneakers";
     }
 

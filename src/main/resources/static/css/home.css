@@ -363,7 +363,7 @@ svg:hover {
 
 .sneaker-card img {
     width: 100%;
-    height: 220px;
+    height: 250px;
     object-fit: contain;
     display: block;
     border-radius: 12px;
@@ -520,57 +520,105 @@ svg:hover {
    RESPONSIVE DESIGN
    ============================================ */
 
+/* ---------- Tablets y pantallas medianas ---------- */
 @media (max-width: 992px) {
     .container-fluid {
         padding: 1rem;
     }
 
     .carousel-inner {
-        max-height: 400px;
-    }
-
-    .carousel-item {
-        height: 400px;
-    }
-}
-
-@media (max-width: 768px) {
-    .container-fluid {
-        padding: 0.5rem;
-    }
-
-    .row {
-        flex-direction: column;
-    }
-
-    .col-md-3,
-    .col-md-9 {
-        max-width: 100%;
-    }
-
-    .card {
-        margin-bottom: 2rem;
-    }
-
-    .carousel-inner {
         max-height: 300px;
+        border-radius: 10px;
     }
 
     .carousel-item {
         height: 300px;
     }
 
+    .sneaker-card img {
+        height: 200px;
+        padding: 12px;
+    }
+
+    .products-section h4 {
+        font-size: 1.5rem;
+    }
+
+    .price {
+        font-size: 1.3rem;
+    }
+}
+
+/* ---------- Móviles grandes / tablets pequeñas ---------- */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 0.5rem;
+    }
+
+    /* Filtros pasan a ancho completo */
+    .col-md-3,
+    .col-md-9 {
+        max-width: 100%;
+        flex: 0 0 100%;
+    }
+
+    .card {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Carrusel más pequeño */
+    .carousel-inner {
+        max-height: 240px;
+        border-radius: 8px;
+        margin: 0.5rem auto;
+    }
+
+    .carousel-item {
+        height: 240px;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 38px;
+        height: 38px;
+    }
+
+    /* Imágenes de producto adaptadas */
+    .sneaker-card img {
+        height: 180px;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 0.5rem auto;
+    }
+
+    .sneaker-card .card-body {
+        padding: 1rem;
+    }
+
     .products-section h4 {
         font-size: 1.4rem;
     }
 
+    /* Navbar responsive */
     .navbar-nav .nav-link {
         margin-left: 0;
         padding: 0.3rem 1rem !important;
     }
+
+    .nav_brand {
+        width: 60px;
+        height: 60px;
+    }
 }
 
-@media (max-width: 480px) {
+/* ---------- Móviles medianos ---------- */
+@media (max-width: 576px) {
+    /* Grid: 2 columnas en móvil */
+    .col-sm-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
     .carousel-inner {
         max-height: 200px;
     }
@@ -579,24 +627,101 @@ svg:hover {
         height: 200px;
     }
 
-    .nav_brand {
-        width: 45px;
-        height: 45px;
+    .sneaker-card img {
+        height: 140px;
+        padding: 8px;
+        margin: 0.4rem auto;
+    }
+
+    .sneaker-card .card-body {
+        padding: 0.8rem;
+    }
+
+    .price {
+        font-size: 1.1rem;
+        margin: 0.4rem 0;
+    }
+
+    .card-title {
+        font-size: 0.8rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .sneaker-card small {
+        font-size: 0.7rem;
+    }
+
+    .sneaker-card .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
     }
 
     .products-section h4 {
         font-size: 1.2rem;
     }
 
+    .products-section p {
+        font-size: 0.85rem;
+    }
+
+    .nav_brand {
+        width: 50px;
+        height: 50px;
+    }
+
+    .card-header {
+        padding: 1rem;
+    }
+
+    .card-body {
+        padding: 1.2rem 1rem;
+    }
+}
+
+/* ---------- Móviles pequeños ---------- */
+@media (max-width: 400px) {
+    .carousel-inner {
+        max-height: 160px;
+    }
+
+    .carousel-item {
+        height: 160px;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 30px;
+        height: 30px;
+    }
+
     .sneaker-card img {
-        height: 150px;
+        height: 110px;
+        padding: 6px;
+    }
+
+    .sneaker-card .card-body {
+        padding: 0.6rem;
     }
 
     .price {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
     .card-title {
-        font-size: 0.85rem;
+        font-size: 0.75rem;
+    }
+
+    .sneaker-card .btn {
+        padding: 0.45rem 0.8rem;
+        font-size: 0.7rem;
+    }
+
+    .nav_brand {
+        width: 42px;
+        height: 42px;
+    }
+
+    .products-section h4 {
+        font-size: 1rem;
     }
 }

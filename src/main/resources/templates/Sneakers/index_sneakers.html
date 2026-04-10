@@ -51,14 +51,33 @@
             <div class="filter-card">
                 <div class="filter-card-header">
                     <i class="bi bi-funnel"></i>
-                    <h5>Filtrar por marca</h5>
+                    <h5>Filtros</h5>
                 </div>
                 <div class="filter-card-body">
                     <form th:action="@{/sneakers/filter}" method="get">
-                        <div th:each="b : ${brands}" class="filter-option">
-                            <input type="radio" name="id_brand" th:value="${b.id_brand}" th:id="'brand-' + ${b.id_brand}">
-                            <label th:for="'brand-' + ${b.id_brand}" th:text="${b.name}"></label>
+
+                        <!-- Filtro por Marca -->
+                        <div class="filter-group">
+                            <label class="filter-label" for="brandSelect">Marca</label>
+                            <select class="filter-select" name="id_brand" id="brandSelect">
+                                <option value="0" selected>Todas las marcas</option>
+                                <option th:each="b : ${brands}"
+                                        th:value="${b.id_brand}"
+                                        th:text="${b.name}"></option>
+                            </select>
                         </div>
+
+                        <!-- Filtro por Tipo -->
+                        <div class="filter-group">
+                            <label class="filter-label" for="typeSelect">Tipo</label>
+                            <select class="filter-select" name="id_type_sneakers" id="typeSelect">
+                                <option value="0" selected>Todos los tipos</option>
+                                <option th:each="t : ${typeSneakers}"
+                                        th:value="${t.id_type_sneakers}"
+                                        th:text="${t.name}"></option>
+                            </select>
+                        </div>
+
                         <div class="filter-actions">
                             <button type="submit" class="btn-filter"><i class="bi bi-search"></i> Filtrar</button>
                             <a th:href="@{/sneakers}" class="btn-clear"><i class="bi bi-x-circle"></i> Mostrar todos</a>
@@ -76,14 +95,14 @@
         <!-- TABLA -->
         <div class="col-lg-9">
             <div class="table-card">
-                <table class="admin-table">
+                <table class="admin-table" data-page-size="5">
                     <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Precio</th>
-                        <th>Marca</th>
-                        <th>Tipo</th>
+                        <th class="sortable" data-col="0">Nombre</th>
+                        <th class="sortable" data-col="1">Descripción</th>
+                        <th class="sortable" data-col="2">Precio</th>
+                        <th class="sortable" data-col="3">Marca</th>
+                        <th class="sortable" data-col="4">Tipo</th>
                         <th>Imagen</th>
                         <th>Acciones</th>
                     </tr>
@@ -119,5 +138,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/sort_table.js}"></script>
+<script th:src="@{/js/paginate_table.js}"></script>
 </body>
 </html>

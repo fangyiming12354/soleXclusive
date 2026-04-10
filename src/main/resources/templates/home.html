@@ -145,11 +145,11 @@
 
             <!-- Grid de productos -->
             <div class="row">
-                <div class="col-md-4 mb-4" th:each="sneaker : ${sneakers}">
+                <div class="col-sm-6 col-lg-4 mb-4" th:each="sneaker : ${sneakers}">
                     <div class="card sneaker-card h-100">
                         <!-- Imagen -->
                         <img th:src="@{/images/{img}(img=${sneaker.filePath})}"
-                             class="card-img-top" alt="sneaker" style="height: 250px; object-fit: cover;">
+                             class="card-img-top sneaker-img" alt="sneaker">
 
                         <div class="card-body">
                             <!-- Marca y Tipo -->

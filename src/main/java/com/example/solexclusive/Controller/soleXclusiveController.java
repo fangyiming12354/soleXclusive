@@ -96,10 +96,15 @@ public class soleXclusiveController {
 
     @PostMapping({"/home/cart/add"})
     public String addToCart(@RequestParam int id_sneaker,
-                            @RequestParam double size,
+                            @RequestParam(defaultValue = "0") double size,
                             @RequestParam int quantity,
                             HttpSession session,
                             Model model) {
+
+        // Validar que se ha seleccionado una talla
+        if (size <= 0) {
+            return "redirect:/home/sneakers/" + id_sneaker + "?error=nosize";
+        }
 
         // Obtener usuario de la sesión
         Users user = (Users) session.getAttribute("user");

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class StocksController {
@@ -44,6 +45,25 @@ public class StocksController {
     @GetMapping("/stocks")
     public String stocks(Model model) {
         model.addAttribute("stocks", stocksService.findAll());
+        model.addAttribute("sneakers", sneakersService.findAll());
+        model.addAttribute("brands", brandsService.findAllBrands());
+        model.addAttribute("typeSneakers", typeSneakersService.findAll());
+        return "Stocks/index_stocks";
+    }
+
+    @GetMapping("/stocks/filter")
+    public String filterStocks(@RequestParam int id_brand,
+                               @RequestParam int id_type_sneakers,
+                               Model model) {
+        if (id_brand == 0 && id_type_sneakers == 0) {
+            model.addAttribute("stocks", stocksService.findAll());
+        } else if (id_brand == 0) {
+            model.addAttribute("stocks", stocksService.findByType(id_type_sneakers));
+        } else if (id_type_sneakers == 0) {
+            model.addAttribute("stocks", stocksService.findByBrandId(id_brand));
+        } else {
+            model.addAttribute("stocks", stocksService.findByBrandType(id_brand, id_type_sneakers));
+        }
         model.addAttribute("sneakers", sneakersService.findAll());
         model.addAttribute("brands", brandsService.findAllBrands());
         model.addAttribute("typeSneakers", typeSneakersService.findAll());

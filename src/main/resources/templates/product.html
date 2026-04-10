@@ -54,10 +54,12 @@
     <!-- MENSAJES DE ALERTA -->
     <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
         <i class="bi bi-exclamation-circle"></i>
-        <strong>Stock Insuficiente:</strong>
-        <span th:if="${param.error == 'stock'}">
-        La cantidad solicitada supera el stock disponible.
-    </span>
+        <span th:if="${param.error[0] == 'stock'}">
+            <strong>Stock Insuficiente:</strong> La cantidad solicitada supera el stock disponible.
+        </span>
+        <span th:if="${param.error[0] == 'nosize'}">
+            <strong>Talla no seleccionada:</strong> Debes seleccionar una talla antes de añadir al carrito.
+        </span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
@@ -191,6 +193,15 @@
         btn.classList.add('selected');
         document.getElementById('size').value = btn.getAttribute('data-size');
     }
+
+    document.querySelector('.cart-form').addEventListener('submit', function(e) {
+        var sizeValue = document.getElementById('size').value;
+        if (!sizeValue || sizeValue === '') {
+            e.preventDefault();
+            var sneakerId = document.querySelector('input[name="id_sneaker"]').value;
+            window.location.href = '/home/sneakers/' + sneakerId + '?error=nosize';
+        }
+    });
 </script>
 </body>
 </html>
