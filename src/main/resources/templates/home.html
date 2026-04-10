@@ -116,6 +116,16 @@
                             </select>
                         </div>
 
+                        <!-- Ordenar por Precio -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Ordenar por precio</label>
+                            <select class="form-select form-select-sm" id="priceSort">
+                                <option value="0" selected>Sin ordenar</option>
+                                <option value="asc">Menor a mayor</option>
+                                <option value="desc">Mayor a menor</option>
+                            </select>
+                        </div>
+
                         <!-- Botones -->
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-dark">
@@ -179,5 +189,24 @@
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('priceSort').addEventListener('change', function () {
+        var dir = this.value;
+        var grid = document.querySelector('.col-md-9 > .row');
+        var cards = Array.from(grid.querySelectorAll('.col-sm-6'));
+
+        if (dir === '0') return;
+
+        cards.sort(function (a, b) {
+            var priceA = parseFloat(a.querySelector('.price').textContent.replace('€', ''));
+            var priceB = parseFloat(b.querySelector('.price').textContent.replace('€', ''));
+            return dir === 'asc' ? priceA - priceB : priceB - priceA;
+        });
+
+        cards.forEach(function (card) {
+            grid.appendChild(card);
+        });
+    });
+</script>
 </body>
 </html>
