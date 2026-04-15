@@ -13,7 +13,7 @@
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/home">
+    <a class="navbar-brand" th:href="@{/home}">
       <img th:src="@{/img/logo_white_remove.png}" class="nav_brand" alt="Logo">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -29,16 +29,16 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/home">INICIO</a>
+          <a class="nav-link" th:href="@{/home}">INICIO</a>
         </li>
         <li class="nav-item" th:if="${session.user != null}">
-          <a class="nav-link user-name-nav" href="/home/profile">
+          <a class="nav-link user-name-nav" th:href="@{/home/profile}">
             <i class="bi bi-person-circle"></i>
             <span th:text="${session.user.name}"></span>
           </a>
         </li>
         <li class="nav-item" th:if="${session.user == null}">
-          <a class="nav-link user-name-nav" href="/login">
+          <a class="nav-link user-name-nav" th:href="@{/login}">
             <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
           </a>
         </li>
@@ -63,7 +63,7 @@
     <div class="empty-history-container">
       <i class="bi bi-inbox"></i>
       <p>No tienes compras registradas</p>
-      <a href="/home" class="btn btn-continue">
+      <a th:href="@{/home}" class="btn btn-continue">
         <i class="bi bi-shop"></i> Comenzar a Comprar
       </a>
     </div>

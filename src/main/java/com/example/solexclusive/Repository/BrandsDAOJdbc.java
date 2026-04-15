@@ -11,9 +11,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementación JDBC de BrandsDAO.
+ * Realiza las operaciones CRUD de marcas directamente contra la base de datos
+ * usando PreparedStatements para evitar inyección SQL.
+ */
 @Repository
 @Qualifier("brandsDAOJdbc")
 public class BrandsDAOJdbc implements BrandsDAO {
+
+    // Obtiene la conexión activa desde el Singleton
     private Connection getConnection() {return Conexion.getInstancia().getConnection();}
 
     @Override
@@ -21,12 +28,11 @@ public class BrandsDAOJdbc implements BrandsDAO {
         String sql = "INSERT INTO brands (name) VALUES (?)";
         try {
             PreparedStatement ps = this.getConnection().prepareStatement(sql);
-            ps.setString(1,b.getName());
+            ps.setString(1, b.getName());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
@@ -34,7 +40,7 @@ public class BrandsDAOJdbc implements BrandsDAO {
         String sql = "DELETE FROM brands WHERE id_brand = ?";
         try {
             PreparedStatement ps = this.getConnection().prepareStatement(sql);
-            ps.setInt(1,id);
+            ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -46,13 +52,12 @@ public class BrandsDAOJdbc implements BrandsDAO {
         String sql = "UPDATE brands SET name=? WHERE id_brand= ?";
         try {
             PreparedStatement ps = this.getConnection().prepareStatement(sql);
-            ps.setString(1,b.getName());
-            ps.setInt(2,b.getId_brand());
+            ps.setString(1, b.getName());
+            ps.setInt(2, b.getId_brand());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
@@ -61,7 +66,7 @@ public class BrandsDAOJdbc implements BrandsDAO {
         Brands b = null;
         try {
             PreparedStatement ps = this.getConnection().prepareStatement(sql);
-            ps.setInt(1,id);
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 b = this.mapBrands(rs);
@@ -88,11 +93,13 @@ public class BrandsDAOJdbc implements BrandsDAO {
         return list;
     }
 
+    /**
+     * Convierte una fila del ResultSet en un objeto Brands.
+     */
     public Brands mapBrands(ResultSet rs) throws SQLException {
         Brands b = new Brands();
         b.setId_brand(rs.getInt("id_brand"));
         b.setName(rs.getString("name"));
         return b;
     }
-
 }

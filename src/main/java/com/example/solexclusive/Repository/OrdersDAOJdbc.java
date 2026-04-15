@@ -11,12 +11,25 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementación JDBC de OrdersDAO.
+ * El método save realiza tres operaciones en secuencia:
+ *   1. Inserta el pedido en 'orders' y obtiene el id generado.
+ *   2. Inserta cada línea en 'order_items'.
+ *   3. Descuenta la cantidad del stock correspondiente.
+ *
+ * El método delete hace lo inverso: restaura el stock antes de borrar.
+ */
 @Repository
 @Qualifier("ordersDAOJdbc")
 public class OrdersDAOJdbc implements OrdersDAO {
 
     private Connection getConnection() {return Conexion.getInstancia().getConnection();}
 
+    /**
+     * Guarda un pedido completo en la base de datos.
+     * Inserta el pedido, sus líneas y descuenta el stock en una misma conexión.
+     */
     @Override
     public void save(Orders orders) {
         String sqlOrder = "INSERT INTO orders (id_user, total) VALUES (?, ?)";
@@ -25,7 +38,7 @@ public class OrdersDAOJdbc implements OrdersDAO {
 
         try (Connection conn = this.getConnection()) {
 
-            // ------------------- Insert order -------------------
+            // ------------------- Insertar pedido y obtener su id generado -------------------
             int idOrder;
             try (PreparedStatement psOrder = conn.prepareStatement(sqlOrder, Statement.RETURN_GENERATED_KEYS)) {
                 psOrder.setInt(1, orders.getId_user().getId_user());
@@ -42,7 +55,7 @@ public class OrdersDAOJdbc implements OrdersDAO {
                 }
             }
 
-            // ------------------- Insert order_items -------------------
+            // ------------------- Insertar las líneas del pedido -------------------
             try (PreparedStatement psItem = conn.prepareStatement(sqlItem)) {
                 for (OrderItems item : orders.getItems()) {
                     psItem.setInt(1, orders.getId_order());
@@ -54,7 +67,7 @@ public class OrdersDAOJdbc implements OrdersDAO {
                 }
             }
 
-            // ------------------- Update stocks -------------------
+            // ------------------- Descontar el stock de cada zapatilla comprada -------------------
             try (PreparedStatement psStock = conn.prepareStatement(sqlStock)) {
                 for (OrderItems item : orders.getItems()) {
                     psStock.setInt(1, item.getQuantity());
@@ -70,6 +83,10 @@ public class OrdersDAOJdbc implements OrdersDAO {
         }
     }
 
+    /**
+     * Devuelve todos los pedidos con el nombre del usuario.
+     * No carga las líneas (order_items) para optimizar el rendimiento en el listado.
+     */
     @Override
     public List<Orders> findAll() {
         List<Orders> pedidos = new ArrayList<>();
@@ -94,7 +111,7 @@ public class OrdersDAOJdbc implements OrdersDAO {
                 order.setDate(rs.getTimestamp("date").toLocalDateTime());
                 order.setTotal(rs.getDouble("total"));
 
-                // No cargamos los items aquí
+                // No cargamos los items aquí para no sobrecargar el listado
                 pedidos.add(order);
             }
 
@@ -105,6 +122,10 @@ public class OrdersDAOJdbc implements OrdersDAO {
         return pedidos;
     }
 
+    /**
+     * Devuelve un pedido completo con todas sus líneas de productos.
+     * Realiza dos consultas: una para el pedido y otra para sus items.
+     */
     @Override
     public Orders findById(int id) {
         Orders order = null;
@@ -116,6 +137,7 @@ public class OrdersDAOJdbc implements OrdersDAO {
                 "WHERE oi.id_order = ?";
 
         try (Connection conn = getConnection()) {
+            // Primera consulta: datos del pedido
             try (PreparedStatement ps = conn.prepareStatement(sqlOrder)) {
                 ps.setInt(1, id);
                 ResultSet rs = ps.executeQuery();
@@ -131,6 +153,7 @@ public class OrdersDAOJdbc implements OrdersDAO {
                 }
             }
 
+            // Segunda consulta: líneas del pedido (solo si el pedido existe)
             if (order != null) {
                 try (PreparedStatement psItems = conn.prepareStatement(sqlItems)) {
                     psItems.setInt(1, id);
@@ -158,6 +181,10 @@ public class OrdersDAOJdbc implements OrdersDAO {
         return order;
     }
 
+    /**
+     * Elimina un pedido restaurando primero el stock de las zapatillas,
+     * luego borrando las líneas y finalmente el pedido.
+     */
     @Override
     public void delete(int id) {
         String sqlRestoreStock = "UPDATE stocks s JOIN order_items oi ON s.id_sneaker = oi.id_sneaker AND s.size = oi.size " +
@@ -167,19 +194,19 @@ public class OrdersDAOJdbc implements OrdersDAO {
 
         try (Connection conn = this.getConnection()) {
 
-            // Restaurar stock
+            // Paso 1: Restaurar el stock de las zapatillas del pedido
             try (PreparedStatement psStock = conn.prepareStatement(sqlRestoreStock)) {
                 psStock.setInt(1, id);
                 psStock.executeUpdate();
             }
 
-            // Borrar items
+            // Paso 2: Borrar las líneas del pedido
             try (PreparedStatement psItems = conn.prepareStatement(sqlDeleteItems)) {
                 psItems.setInt(1, id);
                 psItems.executeUpdate();
             }
 
-            // Borrar pedido
+            // Paso 3: Borrar el pedido principal
             try (PreparedStatement psOrder = conn.prepareStatement(sqlDeleteOrder)) {
                 psOrder.setInt(1, id);
                 psOrder.executeUpdate();
@@ -190,11 +217,14 @@ public class OrdersDAOJdbc implements OrdersDAO {
         }
     }
 
-
+    /**
+     * Devuelve los pedidos de un cliente concreto, ordenados del más reciente al más antiguo.
+     * No carga las líneas para optimizar el rendimiento en el historial.
+     */
     @Override
     public List<Orders> findByCustomerId(int id) {
         List<Orders> pedidos = new ArrayList<>();
-        String sql =  "SELECT o.*, u.name AS user_name FROM orders o " +
+        String sql = "SELECT o.*, u.name AS user_name FROM orders o " +
                 "JOIN users u ON o.id_user = u.id_user " +
                 "WHERE o.id_user = ? ORDER BY o.date DESC";
         try (Connection conn = getConnection();
@@ -218,4 +248,3 @@ public class OrdersDAOJdbc implements OrdersDAO {
         return pedidos;
     }
 }
-

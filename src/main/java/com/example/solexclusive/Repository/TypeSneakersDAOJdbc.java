@@ -10,6 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Implementación JDBC de TypeSneakersDAO.
+ * Accede a la tabla 'type_sneakers' para consultar los tipos de zapatilla disponibles.
+ */
 @Repository
 @Qualifier("typeSneakersDAOJdbc")
 public class TypeSneakersDAOJdbc implements TypeSneakersDAO {
@@ -21,7 +26,7 @@ public class TypeSneakersDAOJdbc implements TypeSneakersDAO {
         List<TypeSneakers> list = new ArrayList<>();
         String sql = "SELECT * FROM type_sneakers";
         try {
-            PreparedStatement ps =this.getConnection().prepareStatement(sql);
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(mapTypeSneakers(rs));
@@ -49,12 +54,13 @@ public class TypeSneakersDAOJdbc implements TypeSneakersDAO {
         return typeSneakers;
     }
 
-
+    /**
+     * Convierte una fila del ResultSet en un objeto TypeSneakers.
+     */
     public TypeSneakers mapTypeSneakers(ResultSet rs) throws SQLException {
         TypeSneakers sneakers = new TypeSneakers();
         sneakers.setId_type_sneakers(rs.getInt("id_type_sneaker"));
         sneakers.setName(rs.getString("name"));
         return sneakers;
     }
-
 }

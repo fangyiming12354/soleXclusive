@@ -1,7 +1,16 @@
 package com.example.solexclusive.Model;
 
+/**
+ * Modelo que representa un usuario de la aplicación.
+ * Corresponde a la tabla 'users' de la base de datos.
+ * El campo type_user indica el rol: "admin" o "customer".
+ */
 public class Users {
-    private String name,password,email,type_user;
+    private String name;
+    private String password;
+    private String email;
+    // Rol del usuario como texto: "admin" o "customer"
+    private String type_user;
     private int id_user;
 
     public Users() {

@@ -4,15 +4,25 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Modelo que representa un pedido realizado por un usuario.
+ * Corresponde a la tabla 'orders' de la base de datos.
+ * Contiene la lista de líneas del pedido (OrderItems) y el total calculado.
+ */
 public class Orders {
+    // Identificador único del pedido
     private int id_order;
+    // Usuario que realizó el pedido
     private Users id_user;
+    // Fecha y hora en que se realizó el pedido
     private LocalDateTime date;
+    // Total del pedido en euros
     private double total;
-
+    // Lista de productos incluidos en el pedido
     private List<OrderItems> items;
 
     public Orders() {
+        // Inicializar objetos relacionados para evitar NullPointerException
         this.id_user = new Users();
         this.items = new ArrayList<>();
     }
@@ -56,9 +66,14 @@ public class Orders {
     public void setTotal(double total) {
         this.total = total;
     }
+
+    /**
+     * Calcula el total del pedido sumando (cantidad * precio_unitario) de cada línea.
+     * Se usa antes de guardar el pedido en la base de datos.
+     */
     public double calculateTotal() {
         double total = 0;
-        for(OrderItems item : items){
+        for (OrderItems item : items) {
             total += item.getQuantity() * item.getUnit_price();
         }
         return total;

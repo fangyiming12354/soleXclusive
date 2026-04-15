@@ -13,10 +13,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Implementación JDBC de StocksDAO.
+ * Todas las consultas hacen JOIN con sneakers, brands y type_sneakers para devolver
+ * objetos Stocks completos con toda la información de la zapatilla ya cargada.
+ */
 @Repository
 @Qualifier("stocksDAOJdbc")
 public class StocksDAOJdbc implements StocksDAO {
+
     private Connection getConnection() {return Conexion.getInstancia().getConnection();}
+
     @Override
     public void add(Stocks stocks) {
         String sql = "insert into stocks (size,quantity,id_sneaker) values (?,?,?)";
@@ -100,7 +108,7 @@ public class StocksDAOJdbc implements StocksDAO {
         String sql = "select st.id_stock,st.size,st.quantity,s.id_sneaker,s.name sneaker_name ,s.description sneaker_description,s.price sneaker_price," +
                 "s.filePath sneaker_filePath,b.id_brand,b.name brand_name,t.id_type_sneaker,t.name type_name from stocks st join sneakers s on st.id_sneaker = s.id_sneaker " +
                 "join brands b on s.id_brand = b.id_brand join type_sneakers t on s.id_type_sneaker = t.id_type_sneaker where b.id_brand=?";
-         List<Stocks> stocks = new ArrayList<>();
+        List<Stocks> stocks = new ArrayList<>();
         try {
             PreparedStatement ps = this.getConnection().prepareStatement(sql);
             ps.setInt(1, id_brand);
@@ -131,7 +139,6 @@ public class StocksDAOJdbc implements StocksDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return stocks;
     }
 
@@ -156,6 +163,7 @@ public class StocksDAOJdbc implements StocksDAO {
 
     @Override
     public List<Stocks> findBySneakerId(int id_sneaker) {
+        // Usado en la página de detalle de producto para mostrar las tallas disponibles
         String sql = "select st.id_stock,st.size,st.quantity,s.id_sneaker,s.name sneaker_name,s.description sneaker_description,s.price sneaker_price," +
                 "s.filePath sneaker_filePath,b.id_brand,b.name brand_name,t.id_type_sneaker,t.name type_name from stocks st join sneakers s on st.id_sneaker = s.id_sneaker " +
                 "join brands b on s.id_brand = b.id_brand join type_sneakers t on s.id_type_sneaker = t.id_type_sneaker where s.id_sneaker=?";
@@ -173,6 +181,10 @@ public class StocksDAOJdbc implements StocksDAO {
         return stocks;
     }
 
+    /**
+     * Convierte una fila del ResultSet en un objeto Stocks completo,
+     * construyendo también el objeto Sneakers con su marca y tipo anidados.
+     */
     public Stocks mapStocks(ResultSet rs) throws SQLException {
         Stocks stocks = new Stocks();
         stocks.setId_stock(rs.getInt("id_stock"));

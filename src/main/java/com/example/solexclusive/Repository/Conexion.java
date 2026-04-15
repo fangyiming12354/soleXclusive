@@ -4,11 +4,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Clase Singleton que gestiona la conexión a la base de datos MySQL.
+ * Solo existe una instancia de esta clase en toda la aplicación.
+ * Usa el patrón Singleton con sincronización para entornos multihilo.
+ */
 public class Conexion {
     private static final String URL = "jdbc:mysql://localhost:3306/solexclusive";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
+    // Instancia única de la clase (Singleton)
     private static Conexion instancia;
     private Connection connection;
 
@@ -23,7 +29,11 @@ public class Conexion {
         }
     }
 
-
+    /**
+     * Devuelve la instancia única de Conexion.
+     * Si no existe o la conexión fue cerrada, crea una nueva.
+     * Sincronizado para ser seguro en entornos multihilo.
+     */
     public static synchronized Conexion getInstancia() {
         if (instancia == null || instancia.connection == null) {
             instancia = new Conexion();
@@ -31,7 +41,10 @@ public class Conexion {
         return instancia;
     }
 
-
+    /**
+     * Devuelve la conexión activa a la base de datos.
+     * Si la conexión está cerrada o es nula, la reabre automáticamente.
+     */
     public Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {
@@ -43,7 +56,10 @@ public class Conexion {
         return connection;
     }
 
-    // Método para cerrar la conexión manualmente
+    /**
+     * Cierra la conexión a la base de datos manualmente.
+     * Útil para liberar recursos al cerrar la aplicación.
+     */
     public void cerrarConexion() {
         try {
             if (connection != null && !connection.isClosed()) {

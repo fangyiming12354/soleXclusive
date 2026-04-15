@@ -1,7 +1,13 @@
 package com.example.solexclusive.Model;
 
+/**
+ * Modelo que representa una marca de zapatillas.
+ * Corresponde a la tabla 'brands' de la base de datos.
+ */
 public class Brands {
+    // Identificador único de la marca
     private int id_brand;
+    // Nombre de la marca (ej: Nike, Adidas)
     private String name;
 
     public Brands() {

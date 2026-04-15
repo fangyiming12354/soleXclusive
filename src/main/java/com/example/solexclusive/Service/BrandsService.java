@@ -8,18 +8,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Servicio para la gestión de marcas.
+ * Actúa como capa intermedia entre el controlador y el repositorio,
+ * inyectando la implementación JDBC de BrandsDAO.
+ */
 @Service
 public class BrandsService {
 
-    private final BrandsDAO  brandsDAO;
+    private final BrandsDAO brandsDAO;
 
     @Autowired
-    public BrandsService(@Qualifier("brandsDAOJdbc")  BrandsDAO brandsDAO) {this.brandsDAO = brandsDAO;}
+    public BrandsService(@Qualifier("brandsDAOJdbc") BrandsDAO brandsDAO) {this.brandsDAO = brandsDAO;}
 
     public void addBrand(Brands brand) {brandsDAO.addBrand(brand);}
     public void deleteBrand(int id) {brandsDAO.deleteBrand(id);}
     public void updateBrand(Brands brand) {brandsDAO.updateBrand(brand);}
     public Brands findBrandById(int id) {return brandsDAO.findById(id);}
     public List<Brands> findAllBrands() {return brandsDAO.findAllBrands();}
-
 }

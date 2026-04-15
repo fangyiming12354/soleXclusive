@@ -13,6 +13,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementación JDBC de SneakersDAO.
+ * Todas las consultas hacen JOIN con brands y type_sneakers para devolver
+ * objetos Sneakers completos con su marca y tipo ya cargados.
+ */
 @Repository
 @Qualifier("sneakersDAOJdbc")
 public class SneakersDAOJdbc implements SneakersDAO {
@@ -21,15 +26,15 @@ public class SneakersDAOJdbc implements SneakersDAO {
 
     @Override
     public void save(Sneakers sneaker) {
-        String sql="INSERT INTO sneakers(name,description,price,filePath,id_brand,id_type_sneaker) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO sneakers(name,description,price,filePath,id_brand,id_type_sneaker) VALUES (?,?,?,?,?,?)";
         try {
-            PreparedStatement ps=this.getConnection().prepareStatement(sql);
-            ps.setString(1,sneaker.getName());
-            ps.setString(2,sneaker.getDescription());
-            ps.setDouble(3,sneaker.getPrice());
-            ps.setString(4,sneaker.getFilePath());
-            ps.setInt(5,sneaker.getId_brands().getId_brand());
-            ps.setInt(6,sneaker.getId_type_sneakers().getId_type_sneakers());
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
+            ps.setString(1, sneaker.getName());
+            ps.setString(2, sneaker.getDescription());
+            ps.setDouble(3, sneaker.getPrice());
+            ps.setString(4, sneaker.getFilePath());
+            ps.setInt(5, sneaker.getId_brands().getId_brand());
+            ps.setInt(6, sneaker.getId_type_sneakers().getId_type_sneakers());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -38,29 +43,28 @@ public class SneakersDAOJdbc implements SneakersDAO {
 
     @Override
     public void update(Sneakers sneaker) {
-        String sql="UPDATE sneakers set name=?,description=?,price=?,filePath=?,id_brand=?,id_type_sneaker=? where id_sneaker=?";
+        String sql = "UPDATE sneakers set name=?,description=?,price=?,filePath=?,id_brand=?,id_type_sneaker=? where id_sneaker=?";
         try {
-            PreparedStatement ps=this.getConnection().prepareStatement(sql);
-            ps.setString(1,sneaker.getName());
-            ps.setString(2,sneaker.getDescription());
-            ps.setDouble(3,sneaker.getPrice());
-            ps.setString(4,sneaker.getFilePath());
-            ps.setInt(5,sneaker.getId_brands().getId_brand());
-            ps.setInt(6,sneaker.getId_type_sneakers().getId_type_sneakers());
-            ps.setInt(7,sneaker.getId_sneaker());
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
+            ps.setString(1, sneaker.getName());
+            ps.setString(2, sneaker.getDescription());
+            ps.setDouble(3, sneaker.getPrice());
+            ps.setString(4, sneaker.getFilePath());
+            ps.setInt(5, sneaker.getId_brands().getId_brand());
+            ps.setInt(6, sneaker.getId_type_sneakers().getId_type_sneakers());
+            ps.setInt(7, sneaker.getId_sneaker());
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
     public void delete(int id) {
-        String sql="DELETE FROM sneakers where id_sneaker=?";
+        String sql = "DELETE FROM sneakers where id_sneaker=?";
         try {
-            PreparedStatement ps=this.getConnection().prepareStatement(sql);
-            ps.setInt(1,id);
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
+            ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -69,14 +73,14 @@ public class SneakersDAOJdbc implements SneakersDAO {
 
     @Override
     public Sneakers findById(int id) {
-        String sql="SELECT s.id_sneaker, s.name, s.description, s.price, s.filePath, b.id_brand, b.name AS brand_name, t.id_type_sneaker, t.name AS type_name FROM sneakers s JOIN brands b ON s.id_brand = b.id_brand JOIN type_sneakers t ON s.id_type_sneaker = t.id_type_sneaker WHERE s.id_sneaker = ?";
-        Sneakers sneaker=null;
+        String sql = "SELECT s.id_sneaker, s.name, s.description, s.price, s.filePath, b.id_brand, b.name AS brand_name, t.id_type_sneaker, t.name AS type_name FROM sneakers s JOIN brands b ON s.id_brand = b.id_brand JOIN type_sneakers t ON s.id_type_sneaker = t.id_type_sneaker WHERE s.id_sneaker = ?";
+        Sneakers sneaker = null;
         try {
-            PreparedStatement ps=this.getConnection().prepareStatement(sql);
-            ps.setInt(1,id);
-            ResultSet rs=ps.executeQuery();
-            if(rs.next()){
-                sneaker=this.mapSneakers(rs);
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                sneaker = this.mapSneakers(rs);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -86,12 +90,12 @@ public class SneakersDAOJdbc implements SneakersDAO {
 
     @Override
     public List<Sneakers> findAll() {
-        List<Sneakers> sneaker=new ArrayList<Sneakers>();
-        String sql="SELECT s.id_sneaker,s.name,s.description,s.price,s.filePath,b.id_brand,b.name brand_name,t.id_type_sneaker,t.name type_name FROM sneakers s JOIN brands b ON s.id_brand=b.id_brand JOIN type_sneakers t on s.id_type_sneaker=t.id_type_sneaker";
+        List<Sneakers> sneaker = new ArrayList<Sneakers>();
+        String sql = "SELECT s.id_sneaker,s.name,s.description,s.price,s.filePath,b.id_brand,b.name brand_name,t.id_type_sneaker,t.name type_name FROM sneakers s JOIN brands b ON s.id_brand=b.id_brand JOIN type_sneakers t on s.id_type_sneaker=t.id_type_sneaker";
         try {
-            PreparedStatement ps=this.getConnection().prepareStatement(sql);
-            ResultSet rs=ps.executeQuery();
-            while(rs.next()){
+            PreparedStatement ps = this.getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
                 sneaker.add(this.mapSneakers(rs));
             }
         } catch (SQLException e) {
@@ -102,7 +106,7 @@ public class SneakersDAOJdbc implements SneakersDAO {
 
     @Override
     public List<Sneakers> findByBrand(int id_brand) {
-        List<Sneakers> sneaker=new ArrayList<Sneakers>();
+        List<Sneakers> sneaker = new ArrayList<Sneakers>();
         String sql = "SELECT s.id_sneaker,s.name,s.description,s.price,s.filePath,b.id_brand,b.name brand_name,t.id_type_sneaker,t.name type_name FROM sneakers s JOIN brands b ON s.id_brand=b.id_brand JOIN type_sneakers t on s.id_type_sneaker=t.id_type_sneaker where s.id_brand=?";
         try {
             PreparedStatement ps = this.getConnection().prepareStatement(sql);
@@ -119,11 +123,11 @@ public class SneakersDAOJdbc implements SneakersDAO {
 
     @Override
     public List<Sneakers> findByType(int id_type_sneakers) {
-        List<Sneakers> sneaker=new ArrayList<Sneakers>();
+        List<Sneakers> sneaker = new ArrayList<Sneakers>();
         String sql = "SELECT s.id_sneaker,s.name,s.description,s.price,s.filePath,b.id_brand,b.name brand_name,t.id_type_sneaker,t.name type_name FROM sneakers s JOIN brands b ON s.id_brand=b.id_brand JOIN type_sneakers t on s.id_type_sneaker=t.id_type_sneaker where t.id_type_sneaker=?";
         try {
             PreparedStatement ps = this.getConnection().prepareStatement(sql);
-            ps.setInt(1,id_type_sneakers );
+            ps.setInt(1, id_type_sneakers);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 sneaker.add(this.mapSneakers(rs));
@@ -131,13 +135,12 @@ public class SneakersDAOJdbc implements SneakersDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return sneaker;
     }
 
     @Override
-    public List<Sneakers> findByBrandType(int id_brand,int id_type_sneakers) {
-        List<Sneakers> sneaker=new ArrayList<Sneakers>();
+    public List<Sneakers> findByBrandType(int id_brand, int id_type_sneakers) {
+        List<Sneakers> sneaker = new ArrayList<Sneakers>();
         String sql = "SELECT s.id_sneaker,s.name,s.description,s.price,s.filePath,b.id_brand,b.name brand_name,t.id_type_sneaker,t.name type_name FROM sneakers s JOIN brands b ON s.id_brand=b.id_brand JOIN type_sneakers t on s.id_type_sneaker=t.id_type_sneaker where s.id_brand=? and t.id_type_sneaker=?";
         try {
             PreparedStatement ps = this.getConnection().prepareStatement(sql);
@@ -150,10 +153,13 @@ public class SneakersDAOJdbc implements SneakersDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         return sneaker;
     }
 
+    /**
+     * Convierte una fila del ResultSet en un objeto Sneakers completo,
+     * incluyendo su marca y tipo ya construidos.
+     */
     private Sneakers mapSneakers(ResultSet rs) throws SQLException {
         Sneakers sneakers = new Sneakers();
         sneakers.setId_sneaker(rs.getInt("id_sneaker"));
@@ -171,5 +177,4 @@ public class SneakersDAOJdbc implements SneakersDAO {
         sneakers.setId_type_sneakers(type_sneaker);
         return sneakers;
     }
-
 }

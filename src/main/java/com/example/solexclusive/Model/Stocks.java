@@ -1,13 +1,26 @@
 package com.example.solexclusive.Model;
 
+/**
+ * Modelo que representa el stock de una zapatilla para una talla concreta.
+ * Corresponde a la tabla 'stocks' de la base de datos.
+ * Relaciona una zapatilla con su talla y la cantidad disponible.
+ */
 public class Stocks {
-    private int id_stock,quantity;
+    // Identificador único del registro de stock
+    private int id_stock;
+    // Cantidad disponible en inventario
+    private int quantity;
+    // Talla de la zapatilla (ej: 42.0, 43.5)
     private double size;
+    // Zapatilla a la que pertenece este stock
     private Sneakers id_sneaker;
+    // Marca de la zapatilla (desnormalizado para facilitar consultas en vistas)
     private Brands id_brands;
-    private  TypeSneakers id_type_sneakers;
+    // Tipo de la zapatilla (desnormalizado para facilitar consultas en vistas)
+    private TypeSneakers id_type_sneakers;
 
     public Stocks() {
+        // Inicializar objetos relacionados para evitar NullPointerException
         this.id_sneaker = new Sneakers();
         this.id_brands = new Brands();
         this.id_type_sneakers = new TypeSneakers();

@@ -30,16 +30,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/home">INICIO</a>
+                    <a class="nav-link" th:href="@{/home}">INICIO</a>
                 </li>
                 <li class="nav-item" th:if="${session.user != null}">
-                    <a class="nav-link user-name-nav" href="/home/profile">
+                    <a class="nav-link user-name-nav" th:href="@{/home/profile}">
                         <i class="bi bi-person-circle"></i>
                         <span th:text="${session.user.name}"></span>
                     </a>
                 </li>
                 <li class="nav-item" th:if="${session.user == null}">
-                    <a class="nav-link user-name-nav" href="/login">
+                    <a class="nav-link user-name-nav" th:href="@{/login}">
                         <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
                     </a>
                 </li>

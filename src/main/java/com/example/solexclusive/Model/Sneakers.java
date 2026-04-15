@@ -1,13 +1,25 @@
 package com.example.solexclusive.Model;
 
+/**
+ * Modelo que representa una zapatilla del catálogo.
+ * Corresponde a la tabla 'sneakers' de la base de datos.
+ * Contiene referencias a su marca (Brands) y su tipo (TypeSneakers).
+ */
 public class Sneakers {
+    // Identificador único de la zapatilla
     private int id_sneaker;
-    private String name,description,filePath;
+    private String name;
+    private String description;
+    // Ruta relativa del archivo de imagen subido
+    private String filePath;
     private double price;
+    // Marca a la que pertenece la zapatilla
     private Brands id_brands;
-    private  TypeSneakers id_type_sneakers;
+    // Tipo de zapatilla (running, casual, etc.)
+    private TypeSneakers id_type_sneakers;
 
     public Sneakers() {
+        // Inicializar objetos relacionados para evitar NullPointerException
         this.id_brands = new Brands();
         this.id_type_sneakers = new TypeSneakers();
     }
@@ -15,7 +27,6 @@ public class Sneakers {
     public int getId_sneaker() {
         return id_sneaker;
     }
-
 
     public TypeSneakers getId_type_sneakers() {
         return id_type_sneakers;
