@@ -105,6 +105,12 @@
                 </div>
             </div>
 
+            <!-- DESCRIPCIÓN -->
+            <div class="product-description">
+                <p class="description-label"><i class="bi bi-card-text"></i> Descripción</p>
+                <p class="description-text" th:text="${sneaker.description}"></p>
+            </div>
+
             <!-- FORMULARIO CARRITO -->
             <form th:action="@{/home/cart/add}" method="post" class="cart-form">
 

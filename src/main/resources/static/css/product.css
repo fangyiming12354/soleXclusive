@@ -145,6 +145,37 @@ body {
 }
 
 /* ============================================
+   DESCRIPCIÓN
+   ============================================ */
+
+.product-description {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 1.5rem;
+}
+
+.description-label {
+    color: #ffb800;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.75rem;
+}
+
+.description-label i {
+    margin-right: 0.5rem;
+}
+
+.description-text {
+    color: #ccc;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ============================================
    FORMULARIO CARRITO
    ============================================ */
 
