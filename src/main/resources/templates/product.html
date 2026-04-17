@@ -57,7 +57,7 @@
         <span th:if="${param.error[0] == 'stock'}">
             <strong>Stock Insuficiente:</strong> La cantidad solicitada supera el stock disponible.
         </span>
-        <span th:if="${param.error[0] == 'nosize'}">
+        <span th:if="${param.error[0] == '-1'}">
             <strong>Talla no seleccionada:</strong> Debes seleccionar una talla antes de añadir al carrito.
         </span>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -205,7 +205,7 @@
         if (!sizeValue || sizeValue === '') {
             e.preventDefault();
             var sneakerId = document.querySelector('input[name="id_sneaker"]').value;
-            window.location.href = '/home/sneakers/' + sneakerId + '?error=nosize';
+            window.location.href = '/home/sneakers/' + sneakerId + '?error=-1';
         }
     });
 </script>
