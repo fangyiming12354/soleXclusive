@@ -186,6 +186,12 @@ svg:hover {
    FILTROS (COLUMNA IZQUIERDA)
    ============================================ */
 
+aside.col-md-3 {
+    position: sticky;
+    top: 90px;
+    align-self: flex-start;
+}
+
 .card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
