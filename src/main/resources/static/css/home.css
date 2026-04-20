@@ -561,11 +561,15 @@ aside.col-md-3 {
         padding: 0.5rem;
     }
 
-    /* Filtros pasan a ancho completo */
+    /* Filtros pasan a ancho completo y dejan de ser sticky */
     .col-md-3,
     .col-md-9 {
         max-width: 100%;
         flex: 0 0 100%;
+    }
+
+    aside.col-md-3 {
+        position: static;
     }
 
     .card {
