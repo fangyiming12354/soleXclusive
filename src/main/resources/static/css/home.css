@@ -11,7 +11,7 @@
 body {
     background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
     color: #fff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Verdana, sans-serif;
     min-height: 100vh;
 }
 
@@ -322,7 +322,7 @@ svg:hover {
    SECCIÓN DE PRODUCTOS
    ============================================ */
 
-.products-section h4 {
+.products-section h2 {
     font-size: 1.8rem;
     font-weight: 700;
     background: linear-gradient(135deg, #fff 0%, #ccc 100%);
@@ -441,7 +441,7 @@ svg:hover {
     animation: slideDown 0.5s ease;
 }
 
-.products-section h4 {
+.products-section h2 {
     font-size: 1.8rem;
     font-weight: 700;
     background: linear-gradient(135deg, #fff 0%, #ccc 100%);
@@ -540,7 +540,7 @@ svg:hover {
         padding: 12px;
     }
 
-    .products-section h4 {
+    .products-section h2 {
         font-size: 1.5rem;
     }
 
@@ -595,7 +595,7 @@ svg:hover {
         padding: 1rem;
     }
 
-    .products-section h4 {
+    .products-section h2 {
         font-size: 1.4rem;
     }
 
@@ -656,7 +656,7 @@ svg:hover {
         font-size: 0.75rem;
     }
 
-    .products-section h4 {
+    .products-section h2 {
         font-size: 1.2rem;
     }
 
@@ -721,7 +721,7 @@ svg:hover {
         height: 42px;
     }
 
-    .products-section h4 {
+    .products-section h2 {
         font-size: 1rem;
     }
 }
