@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${sneaker.name}">Detalle Sneaker</title>
+    <title th:text="${sneaker.name} + ' | Comprar Online - SoleXclusive'">Comprar Sneaker | SoleXclusive</title>
+    <meta name="description" th:content="'Compra ' + ${sneaker.name} + ' de ' + ${sneaker.id_brands.name} + ' al mejor precio. ' + ${sneaker.description} + ' Envío rápido y devolución fácil en SoleXclusive.'">
+    <meta name="keywords" th:content="'comprar ' + ${sneaker.name} + ', ' + ${sneaker.id_brands.name} + ' online, sneakers ' + ${sneaker.id_brands.name} + ', ' + ${sneaker.name} + ' precio, zapatillas ' + ${sneaker.id_brands.name} + ' comprar, sneakers online, comprar zapatillas ' + ${sneaker.id_type_sneakers.name}">
+    <meta name="robots" content="index, follow">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" th:href="@{/css/home.css}">
