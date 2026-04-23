@@ -1,0 +1,28 @@
+User-agent: *
+
+# Páginas públicas indexables
+Allow: /home$
+Allow: /home/sneakers/
+Allow: /login
+Allow: /home/create-account$
+
+# Panel de administración
+Disallow: /admin/
+Disallow: /brands/
+Disallow: /sneakers/
+Disallow: /stocks/
+Disallow: /users/
+
+# Áreas privadas de usuario
+Disallow: /home/cart
+Disallow: /home/profile
+Disallow: /home/purchase-history
+Disallow: /home/order-detail/
+Disallow: /home/order/
+Disallow: /home/logout
+Disallow: /profile/
+
+# Imágenes internas
+Disallow: /images/
+
+Sitemap: https://www.solexclusive.com/sitemap.xml
