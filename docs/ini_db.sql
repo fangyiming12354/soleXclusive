@@ -1,5 +1,6 @@
-DROP DATABASE IF EXISTS solexclusive
-CREATE DATABASE IF NOT EXISTS solexclusive
+DROP DATABASE IF EXISTS solexclusive;
+CREATE DATABASE IF NOT EXISTS solexclusive;
+USE solexclusive;
 
 -- 1.TYPE_USERS
 CREATE TABLE IF NOT EXISTS type_users (
